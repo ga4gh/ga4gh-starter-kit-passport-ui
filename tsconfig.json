@@ -1,0 +1,26 @@
+{
+  "compilerOptions": 
+  {
+    "resolveJsonModule": true,
+    "target": "es5",
+    "module": "commonjs",
+    "lib": 
+      [
+        "es2019",
+        "dom"
+      ],
+    "outDir": "./lib",
+    "rootDir": "./src",
+    "strict": true,
+    "typeRoots": 
+      [
+        "./typings"
+      ],
+    "esModuleInterop": true,
+    "noImplicitAny": false // for data: body error in login.ts
+  },
+  "exclude": 
+    [
+      "contrib"
+    ]
+}
