@@ -12,8 +12,11 @@ import consent from './routes/consent'
 const app = express()
 
 // view engine setup (view engine maps HTML templates to routes)
-app.set('views', path.join(__dirname, '..', 'views')) // setting where are the views located
-app.set('view engine', 'pug') // default engine is .pug files
+// app.set('views', path.join(__dirname, '..', 'views')) // setting where are the views located
+app.set('views', path.join(__dirname, '..', 'views_ejs'))
+
+// app.set('view engine', 'pug') // default engine is .pug files
+app.set('view engine', 'ejs') // switching view engines (pug -> ejs)
 
 // uncomment after placing your favicon in /public
 var favicon = require('serve-favicon');

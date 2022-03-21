@@ -1,7 +1,8 @@
 extends layout
 
 block content
-    h1(id="login-title") Please log in
+    h1(id="login-title") GA4GH Passports
+    img(src='./lib/public/favicon.ico' alt='login' style='width:100px; height:100px;')
     if error
         p.
             #{error}
@@ -13,12 +14,12 @@ block content
                 td
                     input(type="email", id="email", name="email", value=hint, placeholder="email@foobar.com")
                 td.
-                    (it's "foo@bar.com")
+                    (it's "foo@ga4gh.org")
             tr
                 td
                     input(type="password", id="password", name="password")
                 td.
-                    (it's "foobar")
+                    
         input(type="checkbox", id="remember", name="remember", value="1")
         label(for="remember") Remember me
         br

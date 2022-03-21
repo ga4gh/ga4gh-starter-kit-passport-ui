@@ -27,6 +27,7 @@
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
     "debug": "^4.1.1",
+    "ejs": "^3.1.6",
     "express": "^4.17.1",
     "favicon": "^0.0.2",
     "middleware": "^1.0.0",

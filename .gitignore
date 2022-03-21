@@ -1,3 +1,6 @@
+# Ignore Mac OS DS Store files
+**/.DS_Store
+
 # Logs
 logs
 *.log

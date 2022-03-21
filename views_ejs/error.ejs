@@ -1,0 +1,22 @@
+<html>
+    <% if (typeof message !== "undefined") { %>
+        <h1>
+            GA4GH Passports Error Page
+        </h1>
+        <h2>
+            <%= message %>
+        </h2>
+    <% } %>
+    <% if (typeof error !== "undefined") { %>
+        <div>
+            <p>
+                <%= error %>
+            </p>
+        </div>
+        <div>
+            <p>
+                <%= error.stack %>
+            </p>
+        </div>
+    <% } %>
+</html>
