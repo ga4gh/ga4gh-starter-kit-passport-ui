@@ -4,6 +4,7 @@ import urljoin from 'url-join'
 import csrf from 'csurf'
 import { hydraAdmin } from '../config'
 import { oidcConformityMaybeFakeAcr } from './stub/oidc-cert'
+import fetch from 'node-fetch'
 
 // Sets up csrf protection
 const csrfProtection = csrf({ cookie: true })
@@ -58,6 +59,11 @@ router.get('/', csrfProtection, (req, res, next) =>
 
 router.post('/', csrfProtection, (req, res, next) => 
 {
+  console.log("Post request at login.ts \n");
+  console.log("req: " + req + "\n");
+  console.log("res: " + res + "\n");
+  console.log("next: " + next + "\n");
+
   // The challenge is now a hidden input field, so let's take it from the request body instead
   const challenge = req.body.challenge
 
@@ -78,6 +84,38 @@ router.post('/', csrfProtection, (req, res, next) =>
         .catch(next)
     )
   }
+
+  // // // // // // Send login request to Kratos // // // // // 
+
+  // var target_url = process.env.KRATOS_PUBLIC_URL + "self-service/login/browser"; // The API endpoint for log in request
+  var target_url = "http://127.0.0.1:4433/self-service/login/browser";
+  
+  console.log("Target url is: " + target_url + "\n");
+
+  const data = { "name" : "emre", "company" : "ga4gh" };
+  var return_data;
+
+  const options = 
+  {
+    method: 'POST',
+    headers: 
+    {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }
+
+  // This is not async?
+  fetch(target_url, options)
+  .then(response => { 
+    return_data = response;
+  })
+
+  console.log("- - - This was returned to me : - - - \n");
+  console.log(return_data);
+  console.log("- - - - - - - - - - - - - - - - - - - \n");
+
+  // // // // // // // // // // // // // // // // // // // // 
 
   // Let's check if the user provided valid credentials. Of course, you'd use a database or some third-party service
   // for this!

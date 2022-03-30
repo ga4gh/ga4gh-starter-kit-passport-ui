@@ -1,16 +1,15 @@
 Nothing:
 	@echo "No target provided. Stop"
-	
-.PHONY: docker-build # this doesn't work but docker build command does :)
+
+.PHONY: docker-build
 docker-build:
 	docker build -t ga4gh/ga4gh-starter-kit-passport-ui .
 
-# not tested
 .PHONY: docker-compose
 docker-compose: 
 	docker-compose -f test-compose.yml \
-    -f quickstart-postgres.yml \
-    up --build
+	-f quickstart-postgres.yml \
+	up --build
 
 .PHONY: run-ory-tutorial
 run-ory-tutorial:
@@ -64,3 +63,26 @@ short-ory-tutorial:
     --scope openid,offline
 
 	open -a "Google Chrome" http://127.0.0.1:5555/
+
+# .PHONY: example-kratos-compose
+# example-kratos-compose:
+# 	docker-compose -f example-kratos-compose.yml up \
+# 	--build
+
+# run passport network
+.PHONY: passport-network
+passport-network: 
+	docker-compose -f passport-network.yml up --build --force-recreate
+
+.PHONY: clean-docker
+clean-docker:
+	docker-compose -f test-compose-kratos.yml down -v
+	docker-compose -f test-compose-kratos.yml rm -fsv
+	docker-compose -f kratos-quickstart.yml down -v
+	docker-compose -f kratos-quickstart.yml rm -fsv
+
+# 
+.PHONY: run-kratos
+run-kratos:
+	docker-compose -f kratos-quickstart.yml -f kratos-quickstart-standalone.yml up \
+	--build --force-recreate
