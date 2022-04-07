@@ -9,15 +9,19 @@
         "es2019",
         "dom"
       ],
-    "outDir": "./lib",
-    "rootDir": "./src",
+    "outDir": "./lib/kratos", // adding /kratos here
+    "rootDir": "./src/kratos", // adding /kratos here
     "strict": true,
     "typeRoots": 
       [
         "./typings"
       ],
     "esModuleInterop": true,
-    "noImplicitAny": false // for data: body error in login.ts
+    // "references": [
+    //   {
+    //     "path": "../package2"
+    //   }
+    // ]
   },
   "exclude": ["contrib"]
 }

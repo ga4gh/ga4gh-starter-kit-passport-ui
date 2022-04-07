@@ -1,3 +1,5 @@
+version: '3.7'
+
 services:
 
   ## Hydra ##
@@ -18,7 +20,8 @@ services:
         source: ./contrib/quickstart/5-min
         target: /etc/config/hydra
     environment:
-      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+      # - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+      - DSN=postgres://hydra:secret@postgresd:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
     restart: unless-stopped
     depends_on:
       - hydra-migrate
@@ -28,7 +31,8 @@ services:
   hydra-migrate:
     image: oryd/hydra:v1.11.7
     environment:
-      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+      # - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+      - DSN=postgres://hydra:secret@postgresd:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
     command: migrate -c /etc/config/hydra/hydra.yml sql -e --yes
     volumes:
       - type: volume
@@ -42,12 +46,23 @@ services:
     networks:
       - intranet
 
-  passport-ui:
+  postgresd:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=hydra
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=hydra
+    networks:
+      - intranet
+
+  passport-ui-hydra:
+    image: ga4gh/ga4gh-starter-kit-passport-ui-hydra
     environment:
       - HYDRA_ADMIN_URL=http://hydra:4445/
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
-    image: ga4gh/ga4gh-starter-kit-passport-ui
     ports:
       - "3000:3000"
     restart: unless-stopped
@@ -76,19 +91,33 @@ services:
     networks:
       - intranet
 
-  kratos-selfservice-ui-node:
-    image: oryd/kratos-selfservice-ui-node:v0.5.0-alpha.1
+  # kratos-selfservice-ui-node:
+    # image: oryd/kratos-selfservice-ui-node:v0.5.0-alpha.1
+    # environment:
+    #   - KRATOS_PUBLIC_URL=http://kratos:4433/
+    #   - KRATOS_ADMIN_URL=http://kratos:4434/
+    #   - PORT=4455
+    #   - SECURITY_MODE=
+    #   - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
+    # networks:
+    #   - intranet
+    # restart: on-failure
+    # ports:
+    #   - "4455:4455"      
+
+  passport-ui-kratos:
+    image: ga4gh/ga4gh-starter-kit-passport-ui-kratos
     environment:
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
       - PORT=4455
       - SECURITY_MODE=
       - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
+    ports:
+      - "4455:4455"
+    restart: unless-stopped
     networks:
       - intranet
-    restart: on-failure
-    ports:
-      - "4455:4455"      
 
   kratos:
     depends_on:
@@ -113,6 +142,8 @@ services:
         type: bind
         source: ./contrib/quickstart/kratos/email-password
         target: /etc/config/kratos
+    networks:
+      - intranet
   
   mailslurper:
     image: oryd/mailslurper:latest-smtps

@@ -9,8 +9,8 @@
         "es2019",
         "dom"
       ],
-    "outDir": "./lib",
-    "rootDir": "./src",
+    "outDir": "./lib/hydra", // adding /hydra here
+    "rootDir": "./src/hydra", // adding /hydra here
     "strict": true,
     "typeRoots": 
       [

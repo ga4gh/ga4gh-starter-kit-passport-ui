@@ -2,7 +2,7 @@
   "name": "hydra-login-consent-logout",
   "version": "0.0.0",
   "bin": {
-    "hydra-login-consent-logout": "lib/app.js"
+    "hydra-login-consent-logout": "lib/hydra/app.js"
   },
   "prettier": "ory-prettier-styles",
   "config": {
@@ -10,17 +10,25 @@
   },
   "scripts": {
     "build": "tsc",
-    "serve": "node lib/app.js",
-    "start": "ts-node-dev --watch public,views --respawn src/app.ts",
     "test": "npm-run-all build",
-    "format": "prettier --write ${npm_package_config_prettierTarget}",
-    "format:check": "prettier --check ${npm_package_config_prettierTarget}"
+    "serve-hydra": "node lib/hydra/app.js",
+    "serve-kratos": "node lib/kratos/index.js",
+    "start-hydra": "ts-node-dev --watch public,views --respawn src/app.ts",
+    "start-kratos": "ts-node-dev --watch public,views --respawn src/index.ts",
+    "format-hydra": "prettier --write ${npm_package_config_prettierTarget}",
+    "format-kratos": "prettier --parser typescript --no-semi --single-quote --trailing-comma es5 --write src/**.ts",
+    "format:check": "prettier --check ${npm_package_config_prettierTarget}",
+    "check-format": "prettier --parser typescript --no-semi --single-quote --trailing-comma es5 --check src/**.ts"
   },
   "dependencies": {
     "@oryd/hydra-client": "1.9.0-alpha.2",
+    "@oryd/kratos-client": "^0.5.0-alpha.1",
     "@types/cookie-parser": "^1.4.2",
     "@types/csurf": "^1.9.36",
     "@types/express": "^4.17.7",
+    "@types/express-handlebars": "^0.0.33",
+    "@types/handlebars-helpers": "^0.5.2",
+    "@types/jwt-decode": "^2.2.1",
     "@types/morgan": "^1.9.1",
     "@types/url-join": "^4.0.0",
     "body-parser": "^1.19.0",
@@ -28,14 +36,23 @@
     "csurf": "^1.11.0",
     "debug": "^4.1.1",
     "ejs": "^3.1.6",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
+    "express-handlebars": "^6.0.3",
+    "express-handlebars-kratos": "npm:express-handlebars@^3.1.0",
+    "express-jwt": "^6.1.1",
     "favicon": "^0.0.2",
+    "handlebars-helpers": "^0.10.0",
+    "hbs": "^4.2.0",
+    "jose": "^4.6.0",
+    "jwks-rsa": "^1.8.1",
+    "jwt-decode": "^3.1.2",
     "middleware": "^1.0.0",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.7",
     "pug": "^2.0.4",
     "querystring": "^0.2.0",
     "serve-favicon": "^2.5.0",
+    "transform": "^1.1.2",
     "typescript": "^3.7.5",
     "url-join": "^4.0.1"
   },
