@@ -1,12 +1,25 @@
 <div class="content">
     {{> header}}
     <div class="container">
-        <h2 class="greeting">Welcome back, <span class="user-identifier">{{session.identity.traits.email}}</span>!</h2>
+        <h2 class="greeting">Welcome back, <span class="user-identifier">{{session.identity.traits.email}}</span> to GA4GH Passports</h2>
         <h3>This example app is secure by default!</h3>
         <p>
             Hello, nice to have you! You signed up with this data:
         </p>
         <pre><code>{{jsonPretty session.identity.traits}}</code></pre>
+        <hr class="rounded">
+        <p>
+            Obtain Passport Token
+        </p>
+        
+        <form action="http://127.0.0.1:5555/">
+            {{!-- <input type="submit" value="Go to Google" /> --}}
+            <button>
+                Press here to get your Passport token
+            </button>
+        </form>
+        
+        <hr class="rounded">
         <p>
             Requests to your application contain a ORY Kratos Session Cookie:
         </p>

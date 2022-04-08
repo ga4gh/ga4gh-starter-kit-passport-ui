@@ -1,5 +1,5 @@
 {
-  "name": "hydra-login-consent-logout",
+  "name": "ga4gh-passport-ui-node",
   "version": "0.0.0",
   "bin": {
     "hydra-login-consent-logout": "lib/hydra/app.js"
