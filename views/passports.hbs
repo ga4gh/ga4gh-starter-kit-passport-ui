@@ -1,0 +1,12 @@
+<div class="content">
+    {{> header}}
+    <div class="container">
+        <h2 class="greeting">GA4GH Passports Landing Page</h2>
+        <h3>User: <span class="user-identifier">{{session.identity.traits.email}}</span></h3>
+        <p>
+            Login successful, here is your session information:
+        </p>
+
+        <pre><code>{{jsonPretty session}}</code></pre>
+    </div>
+</div>

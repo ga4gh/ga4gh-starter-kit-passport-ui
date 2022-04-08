@@ -5,6 +5,7 @@ import loginHandler from './routes/login'
 import registrationHandler from './routes/registration'
 import errorHandler from './routes/error'
 import dashboard from './routes/dashboard'
+import passport from './routes/passport'
 import debug from './routes/debug'
 import config, { SECURITY_MODE_JWT } from './config'
 import { getTitle, toFormInputPartialName } from './translations'
@@ -82,6 +83,7 @@ if (process.env.NODE_ENV === 'stub') {
 } else {
   app.get('/', protect, dashboard)
   app.get('/dashboard', protect, dashboard)
+  app.get('/passport', protect, passport) // Passports page
   app.get('/auth/registration', registrationHandler)
   app.get('/auth/login', loginHandler)
   app.get('/error', errorHandler)
