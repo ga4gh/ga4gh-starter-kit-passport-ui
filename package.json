@@ -11,14 +11,15 @@
   "scripts": {
     "build": "tsc",
     "test": "npm-run-all build",
-    "serve-hydra": "node lib/hydra/app.js",
-    "serve-kratos": "node lib/kratos/index.js",
-    "start-hydra": "ts-node-dev --watch public,views --respawn src/app.ts",
-    "start-kratos": "ts-node-dev --watch public,views --respawn src/index.ts",
-    "format-hydra": "prettier --write ${npm_package_config_prettierTarget}",
-    "format-kratos": "prettier --parser typescript --no-semi --single-quote --trailing-comma es5 --write src/**.ts",
+    "serve": "node lib/index.js",
+    "start": "ts-node-dev --watch public,views --respawn src/index.ts",
+    "format": "prettier --parser typescript --no-semi --single-quote --trailing-comma es5 --write src/**.ts",
     "format:check": "prettier --check ${npm_package_config_prettierTarget}",
-    "check-format": "prettier --parser typescript --no-semi --single-quote --trailing-comma es5 --check src/**.ts"
+    "check-format": "prettier --parser typescript --no-semi --single-quote --trailing-comma es5 --check src/**.ts",
+
+    "serve-hydra": "node lib/hydra/app.js",
+    "start-hydra": "ts-node-dev --watch public,views --respawn src/app.ts",
+    "format-hydra": "prettier --write ${npm_package_config_prettierTarget}"  
   },
   "dependencies": {
     "@oryd/hydra-client": "1.9.0-alpha.2",

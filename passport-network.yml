@@ -105,8 +105,8 @@ services:
     # ports:
     #   - "4455:4455"      
 
-  passport-ui-kratos:
-    image: ga4gh/ga4gh-starter-kit-passport-ui-kratos
+  passport-ui-node:
+    image: ga4gh/ga4gh-starter-kit-passport-ui-node
     environment:
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/

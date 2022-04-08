@@ -20,6 +20,6 @@ RUN if [ "$LINK" == "true" ]; then (cd ./contrib/sdk/generated; rm -rf node_modu
 
 RUN npm run build
 
-ENTRYPOINT npm run serve-kratos
+ENTRYPOINT npm run serve
 
 EXPOSE 3000

@@ -25,7 +25,7 @@ export const protect =
 const app = express()
 app.use(morgan('tiny'))
 app.use(cookieParser())
-app.set('views', path.join(__dirname, '..', '..', 'views/kratos')) //DIR NAME: /usr/src/app/lib/kratos
+app.set('views', path.join(__dirname, '..', 'views/kratos')) //DIR NAME: /usr/src/app/lib/kratos
 app.set('view engine', 'hbs')
 
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -42,8 +42,8 @@ app.engine(
   'hbs',
   handlebars({ // added .engine here (removed one)
     extname: 'hbs',
-    layoutsDir: `${__dirname}/../../views/kratos/layouts/`, //added /kratos/ , also one more ../
-    partialsDir: `${__dirname}/../../views/kratos/partials/`, //added /kratos/ , also one more ../
+    layoutsDir: `${__dirname}/../views/kratos/layouts/`, //added /kratos/ , also one more ../
+    partialsDir: `${__dirname}/../views/kratos/partials/`, //added /kratos/ , also one more ../
     defaultLayout: 'main',
     helpers: {
       ...require('handlebars-helpers')(),

@@ -1,18 +1,25 @@
 Nothing:
 	@echo "No target provided. Stop"
 
+.PHONY: docker-build
+docker-build:
+	docker build -t ga4gh/ga4gh-starter-kit-passport-ui-node .
+
+# Runs the passport network (Hydra + Kratos + our UI)
+.PHONY: passport-network
+passport-network: 
+	docker-compose -f passport-network.yml up --build --force-recreate
+
+############################
+
 .PHONY: docker-build-hydra
 docker-build-hydra:
 	docker build -t ga4gh/ga4gh-starter-kit-passport-ui-hydra -f Dockerfile-Hydra .
 
-.PHONY: docker-build-kratos
-docker-build-kratos:
-	docker build -t ga4gh/ga4gh-starter-kit-passport-ui-kratos -f Dockerfile-Kratos .
-
 .PHONY: docker-build-all
 docker-build-all:
 	make docker-build-hydra
-	make docker-build-kratos
+	make docker-build
 
 # Runs just the Ory Hydra Service
 .PHONY: run-hydra
@@ -75,11 +82,6 @@ short-ory-tutorial:
     --endpoint http://127.0.0.1:4444/ \
     --port 5555 \
     --scope openid,offline
-
-# Runs the passport network (Hydra + Kratos + our UI)
-.PHONY: passport-network
-passport-network: 
-	docker-compose -f passport-network.yml up --build --force-recreate
 
 .PHONY: run-hydra-tutorial-passport
 run-hydra-tutorial-passport:
