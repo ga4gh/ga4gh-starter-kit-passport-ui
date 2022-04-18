@@ -34,15 +34,25 @@ export default (
 ) => {
   const flow = req.query.flow;
 
+  // console.log('-------------------------');
+  // console.log('PRINTING THE FLOW: ');
+  // console.log(flow);
+  // console.log('-------------------------');
+
   // The flow is used to identify the login and registration flow and
   // return data like the csrf_token and so on.
   if (!flow || !isString(flow)) {
+    // console.log('-------------------------');
     console.log('No flow ID found in URL, initializing registration flow.');
+    // console.log('REDIRECTING TO: ' + `${config.kratos.browser}/self-service/registration/browser`);
+    // console.log('-------------------------');
     res.redirect(
       `${config.kratos.browser}/self-service/registration/browser`,
     );
     return;
   }
+
+  // console.log("Flow is okay!");
 
   kratos.getSelfServiceRegistrationFlow(flow)
     .then(({ status, data: flow }) => {

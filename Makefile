@@ -10,6 +10,25 @@ docker-build:
 passport-network: 
 	docker-compose -f passport-network.yml up --build --force-recreate
 
+# KRATOS_PUBLIC_URL=http://kratos:4433/ \
+# KRATOS_ADMIN_URL=http://kratos:4434/ \
+# KRATOS_BROWSER_URL=http://127.0.0.1:4433/ \
+
+.PHONY: passport-develop-1
+passport-develop-1:
+	npx tsc
+
+	KRATOS_PUBLIC_URL=http://localhost:4433/ \
+	KRATOS_ADMIN_URL=http://localhost:4434/ \
+	KRATOS_BROWSER_URL=http://localhost:4433/ \
+    PORT=4455 \
+	SECURITY_MODE= \
+	node lib/index.js
+
+.PHONY: passport-develop-2
+passport-develop-2:
+	docker-compose -f passport-develop.yml up --build --force-recreate
+
 ############################
 
 .PHONY: docker-build-hydra

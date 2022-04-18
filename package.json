@@ -16,10 +16,9 @@
     "format": "prettier --parser typescript --no-semi --single-quote --trailing-comma es5 --write src/**.ts",
     "format:check": "prettier --check ${npm_package_config_prettierTarget}",
     "check-format": "prettier --parser typescript --no-semi --single-quote --trailing-comma es5 --check src/**.ts",
-
     "serve-hydra": "node lib/hydra/app.js",
     "start-hydra": "ts-node-dev --watch public,views --respawn src/app.ts",
-    "format-hydra": "prettier --write ${npm_package_config_prettierTarget}"  
+    "format-hydra": "prettier --write ${npm_package_config_prettierTarget}"
   },
   "dependencies": {
     "@oryd/hydra-client": "1.9.0-alpha.2",
@@ -48,16 +47,18 @@
     "jwks-rsa": "^1.8.1",
     "jwt-decode": "^3.1.2",
     "middleware": "^1.0.0",
+    "minimist": "^1.2.6",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.7",
     "pug": "^2.0.4",
     "querystring": "^0.2.0",
     "serve-favicon": "^2.5.0",
     "transform": "^1.1.2",
-    "typescript": "^3.7.5",
+    "typescript": "^3.9.10",
     "url-join": "^4.0.1"
   },
   "devDependencies": {
+    "nodemon": "^2.0.15",
     "npm-run-all": "^4.1.5",
     "ory-prettier-styles": "1.1.1",
     "prettier": "2.2.1",

@@ -106,7 +106,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   })
 })
 
-const port = Number(process.env.PORT) || 3000
+let port = Number(process.env.PORT) || 3000
 
 let listener = () => {
   let proto = config.https.enabled ? 'https' : 'http'

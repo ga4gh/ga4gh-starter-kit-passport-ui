@@ -190,3 +190,16 @@ h4 ~ h5 {
 .container a:hover {
     color: var(--base-white);
 }
+
+/* For the icon_logo.hbs */
+.icon-logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon-logo-image > img {
+    max-width: 100%;
+}
+.icon-logo-image {
+    flex-basis: 40%;
+}
