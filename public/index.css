@@ -39,6 +39,23 @@ body {
     width: 300px;
 }
 
+.auth .container .messages {
+    margin: auto;
+    width: 100%;
+    margin-right: 8px;
+    margin-left: 8px;
+    color:red;
+    text-align:center;
+}
+
+.auth .container .messages .message .error {
+    margin: auto;
+    width: 100%;
+    /* margin-right: 8px;
+    margin-left: 8px; */
+    color:green;
+}
+
 .logo {
     pointer-events: none;
     margin: 0 auto 2rem 0;

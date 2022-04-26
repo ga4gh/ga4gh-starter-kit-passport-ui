@@ -2,7 +2,12 @@
     {{> header}}
     <div class="container">
         <h2 class="greeting">GA4GH Passports Landing Page</h2>
-        <h3>User: <span class="user-identifier">{{session.identity.traits.email}}</span></h3>
+        <p style="margin:0;">
+            <span class="user-identifier"><b>{{session.identity.traits.name.first}} {{session.identity.traits.name.last}}</b></span>
+        </p>
+        <h5 style="margin-block-start:0;">
+            <span class="user-identifier">{{session.identity.traits.email}}</span>
+        </h5>
         <p>
             Login successful, here is your session information:
         </p>
