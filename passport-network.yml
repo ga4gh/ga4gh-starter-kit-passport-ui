@@ -108,8 +108,8 @@ services:
   passport-ui-node:
     image: ga4gh/ga4gh-starter-kit-passport-ui-node
     environment:
-      - KRATOS_PUBLIC_URL=http://kratos:4433/
-      - KRATOS_ADMIN_URL=http://kratos:4434/
+      - KRATOS_PUBLIC_URL=http://localhost:4433/
+      - KRATOS_ADMIN_URL=http://localhost:4434/
       - PORT=4455
       - SECURITY_MODE=
       - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
