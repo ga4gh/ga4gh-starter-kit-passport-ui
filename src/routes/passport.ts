@@ -38,6 +38,24 @@ const authInfo = (req: UserRequest) => {
   }
 }
 
+const passportVisas = [
+  {
+    visaId: 1,
+    name: "First Visa",
+    description: "My very first visa"
+  },
+  {
+    visaId: 2,
+    name: "Second visa with very long name",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae ante et elit congue ornare vitae vel libero. Cras fermentum, tortor nec iaculis elementum, massa ipsum egestas mauris, id sollicitudin sapien mauris sit amet ex. In porta sem lectus. Vestibulum nec maximus nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur ac pretium sapien, pharetra feugiat justo. Curabitur suscipit vitae magna nec vestibulum. Nulla maximus leo nec scelerisque maximus. Sed et ante urna. Suspendisse eu dapibus metus, sit amet lacinia justo. Praesent nec risus sit amet sem consequat lacinia. Sed at consequat purus. Nunc blandit dictum tortor ac consectetur. Fusce at nisi et ligula pulvinar porttitor. Quisque placerat purus congue, pretium leo sit amet, aliquam nibh. Nunc vitae euismod neque, vitae porta eros."
+  },
+  {
+    visaId: 3,
+    name: "Third Visa",
+    description: "This is the last one"
+  }
+];
+
 export default (req: Request, res: Response) => {
   const interestingHeaders = req.rawHeaders.reduce(
     (p: string[], v: string, i) =>
@@ -47,6 +65,7 @@ export default (req: Request, res: Response) => {
 
   const ai = authInfo(req as UserRequest)
   res.render('passports', {
+    visas: passportVisas,
     session: ai.claims.session,
     token: ai,
     headers: `GET ${req.path} HTTP/1.1
