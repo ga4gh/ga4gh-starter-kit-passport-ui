@@ -130,6 +130,7 @@ services:
     environment:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
       - LOG_LEVEL=trace
+      - PASSPORT_BROKER_URL=google.com
     command:
       serve -c /etc/config/kratos/kratos.yml --dev
     volumes:
@@ -138,6 +139,9 @@ services:
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
+        # type: bind
+        # source: ./kratos-config
+        # target: /kratos-config
       -
         type: bind
         source: ./contrib/quickstart/kratos/email-password

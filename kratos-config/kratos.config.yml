@@ -1,0 +1,11 @@
+selfservice:
+  flows:
+    registration:
+      after:
+        password:
+          hooks:
+            - hook: web_hook
+              config:
+                url: https://ww.google.com
+                method: GET #POST
+                # body: file:///kratos-config/register.jsonnet
