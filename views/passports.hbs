@@ -46,12 +46,12 @@
                 {{#each visas}}
                     <li style="overflow:hidden; margin-bottom:0.5em;">
                         <tr>
-                            <td><input type="checkbox" id="{{this.visaId}}"/></td>
+                            <td><input type="checkbox" id="{{this.id}}"/></td>
                             <td>
-                                <label for="{{this.visaId}}">{{this.name}}</label>
+                                <label for="{{this.id}}">{{this.visaName}}</label>
                                 <br>
                                 <h5 style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:rgb(182, 182, 182);">
-                                    {{this.description}}
+                                    {{this.visaDescription}}
                                 </h5>
                             </td>
                         </tr>
