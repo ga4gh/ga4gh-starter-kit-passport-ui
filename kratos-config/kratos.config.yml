@@ -4,8 +4,10 @@ selfservice:
       after:
         password:
           hooks:
-            - hook: web_hook
+            - 
+              hook: session
               config:
                 url: https://ww.google.com
-                method: GET #POST
-                # body: file:///kratos-config/register.jsonnet
+                method: POST
+                body: file:///kratos-config/register.jsonnet
+ 

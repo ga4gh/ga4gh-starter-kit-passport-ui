@@ -108,8 +108,8 @@ services:
   passport-ui-node:
     image: ga4gh/ga4gh-starter-kit-passport-ui-node
     environment:
-      - KRATOS_PUBLIC_URL=http://localhost:4433/
-      - KRATOS_ADMIN_URL=http://localhost:4434/
+      - KRATOS_PUBLIC_URL=http://kratos:4433/
+      - KRATOS_ADMIN_URL=http://kratos:4434/
       - PORT=4455
       - SECURITY_MODE=
       - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
@@ -130,7 +130,6 @@ services:
     environment:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
       - LOG_LEVEL=trace
-      - PASSPORT_BROKER_URL=google.com
     command:
       serve -c /etc/config/kratos/kratos.yml --dev
     volumes:
@@ -139,9 +138,6 @@ services:
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
-        # type: bind
-        # source: ./kratos-config
-        # target: /kratos-config
       -
         type: bind
         source: ./contrib/quickstart/kratos/email-password

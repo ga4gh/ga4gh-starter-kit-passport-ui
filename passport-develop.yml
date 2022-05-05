@@ -116,14 +116,29 @@ services:
     environment:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
       - LOG_LEVEL=trace
-    command:
-      serve -c /etc/config/kratos/kratos.yml --dev
+      - PASSPORT_BROKER_URL=google.com
+    command: serve -c /etc/config/kratos/kratos.yml --dev
+    # entrypoint: ["/bin/sh","-c"]
+    # command: export SELFSERVICE_FLOWS_REGISTRATION_AFTER_PASSWORD_HOOKS=/kratos-config/after-reg-config.yml
+
+    # entrypoint: ["/bin/bash","-c"]
+    # command:
+    # - |
+    #   serve /etc/config/kratos/kratos.yml --dev
+    
+    # command:
+    #   - serve -c /etc/config/kratos/kratos.yml --dev # -c /kratos-config/kratos.config.yml
+      # - export SELFSERVICE_FLOWS_REGISTRATION_AFTER_PASSWORD_HOOKS=/kratos-config/after-reg-config.yml
     volumes:
       -
         type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
+      # -
+      #   type: bind
+      #   source: ./kratos-config
+      #   target: /kratos-config
       -
         type: bind
         source: ./contrib/quickstart/kratos/email-password
