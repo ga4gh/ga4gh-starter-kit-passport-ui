@@ -118,23 +118,17 @@ services:
       - LOG_LEVEL=trace
       - PASSPORT_BROKER_URL=google.com
     command: serve -c /etc/config/kratos/kratos.yml --dev
+    # TRYING TO GET WEB HOOK WORKING [NOT WORKING YET]
     # entrypoint: ["/bin/sh","-c"]
     # command: export SELFSERVICE_FLOWS_REGISTRATION_AFTER_PASSWORD_HOOKS=/kratos-config/after-reg-config.yml
 
-    # entrypoint: ["/bin/bash","-c"]
-    # command:
-    # - |
-    #   serve /etc/config/kratos/kratos.yml --dev
-    
-    # command:
-    #   - serve -c /etc/config/kratos/kratos.yml --dev # -c /kratos-config/kratos.config.yml
-      # - export SELFSERVICE_FLOWS_REGISTRATION_AFTER_PASSWORD_HOOKS=/kratos-config/after-reg-config.yml
     volumes:
       -
         type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
+      # TRYING TO GET WEB HOOK WORKING [NOT WORKING YET]
       # -
       #   type: bind
       #   source: ./kratos-config
