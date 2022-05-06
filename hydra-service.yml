@@ -53,8 +53,8 @@ services:
     networks:
       - intranet
 
-  passport-ui:
-    image: ga4gh/ga4gh-starter-kit-passport-ui-hydra
+  hydra-consent-ui:
+    image: oryd/hydra-login-consent-node:v1.11.8 # Using the classic one, we don't need to modify it anymore...
     environment:
       - HYDRA_ADMIN_URL=http://hydra:4445/
       - KRATOS_PUBLIC_URL=http://kratos:4433/

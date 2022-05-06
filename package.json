@@ -10,12 +10,7 @@
     "test": "exit 0",
     "format": "prettier --write '{src,views,types}/**/*.{ts,js,css}'",
     "format:check": "prettier --check '{src,views,types}/**/*.{ts,js,css}'",
-    "prepublishOnly": "npm run build",
-
-    "check-format": "prettier --parser typescript --no-semi --single-quote --trailing-comma es5 --check src/**.ts",
-    "serve-hydra": "node lib/hydra/app.js",
-    "start-hydra": "ts-node-dev --watch public,views --respawn src/app.ts",
-    "format-hydra": "prettier --write ${npm_package_config_prettierTarget}"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
