@@ -1,33 +1,51 @@
-import { NextFunction, Request, Response } from 'express';
-import config from '../config';
-import { Configuration, PublicApi } from '@oryd/kratos-client';
-import { isString, methodConfig, redirectOnSoftError } from '../helpers';
+import {
+  defaultConfig,
+  getUrlForFlow,
+  isQuerySet,
+  logger,
+  redirectOnSoftError,
+  RouteCreator,
+  RouteRegistrator
+} from '../pkg'
 
-const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
+export const createVerificationRoute: RouteCreator =
+  (createHelpers) => (req, res, next) => {
+    res.locals.projectName = 'Verify account'
 
-export default (req: Request, res: Response, next: NextFunction) => {
-  const flow = req.query.flow;
+    const { flow, return_to = '' } = req.query
+    const helpers = createHelpers(req)
+    const { sdk, kratosBrowserUrl } = helpers
+    const initFlowUrl = getUrlForFlow(
+      kratosBrowserUrl,
+      'verification',
+      new URLSearchParams({ return_to: return_to.toString() })
+    )
 
-  // The flow is used to identify the account verification flow and
-  // return data like the csrf_token and so on.
-  if (!flow || !isString(flow)) {
-    console.log('No request found in URL, initializing verification flow.');
-    res.redirect(`${config.kratos.browser}/self-service/verification/browser`);
-    return;
+    // The flow is used to identify the settings and registration flow and
+    // return data like the csrf_token and so on.
+    if (!isQuerySet(flow)) {
+      logger.debug('No flow ID found in URL query initializing login flow', {
+        query: req.query
+      })
+      res.redirect(303, initFlowUrl)
+      return
+    }
+
+    return (
+      sdk
+        .getSelfServiceVerificationFlow(flow, req.header('cookie'))
+        .then(({ data: flow }) => {
+          // Render the data using a view (e.g. Jade Template):
+          res.render('verification', flow)
+        })
+        // Handle errors using ExpressJS' next functionality:
+        .catch(redirectOnSoftError(res, next, initFlowUrl))
+    )
   }
 
-  kratos
-    .getSelfServiceVerificationFlow(flow)
-    .then(({ status, data: flow }) => {
-     if (status != 200) {
-        return Promise.reject(flow);
-      }
-
-      // Render the data using a view (e.g. Jade Template):
-      res.render('verification', {
-        ...flow,
-        link: methodConfig(flow, 'link'),
-      });
-    })
-    .catch(redirectOnSoftError(res, next, '/self-service/verification/browser'));
+export const registerVerificationRoute: RouteRegistrator = (
+  app,
+  createHelpers = defaultConfig
+) => {
+  app.get('/verification', createVerificationRoute(createHelpers))
 }

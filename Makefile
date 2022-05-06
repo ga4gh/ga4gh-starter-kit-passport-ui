@@ -17,7 +17,6 @@ passport-develop-1:
 	npx tsc
 
 	KRATOS_PUBLIC_URL=http://localhost:4433/ \
-	KRATOS_ADMIN_URL=http://localhost:4434/ \
 	KRATOS_BROWSER_URL=http://127.0.0.1:4433/ \
     PORT=4455 \
 	SECURITY_MODE= \
@@ -42,13 +41,14 @@ docker-build-all:
 .PHONY: run-hydra
 run-hydra: 
 	docker-compose -f hydra-quickstart.yml \
-	-f hydra-quickstart-postgres.yml \
-	up --build
+	up --build --force-recreate
+
+# removed from mid-line -f hydra-quickstart-postgres.yml \
 
 # Runs just the Ory Kratos Service
 .PHONY: run-kratos
 run-kratos:
-	docker-compose -f kratos-quickstart.yml -f kratos-quickstart-standalone.yml up \
+	docker-compose -f kratos-service.yml up \
 	--build --force-recreate
 
 .PHONY: run-hydra-tutorial

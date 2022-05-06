@@ -17,7 +17,7 @@ services:
         target: /var/lib/sqlite
         read_only: false
       - type: bind
-        source: ./contrib/quickstart/5-min
+        source: ./contrib/hydra
         target: /etc/config/hydra
     environment:
       # - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
@@ -40,7 +40,7 @@ services:
         target: /var/lib/sqlite
         read_only: false
       - type: bind
-        source: ./contrib/quickstart/5-min
+        source: ./contrib/hydra
         target: /etc/config/hydra
     restart: on-failure
     networks:
@@ -72,70 +72,41 @@ services:
   ## Kratos ##
 
   kratos-migrate:
-    image: oryd/kratos:v0.5.5-alpha.1.pre.1-sqlite
+    image: oryd/kratos:v0.9.0-alpha.2
     environment:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc
     volumes:
-      -
-        type: volume
+      - type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
-      -
-        type: bind
-        source: ./contrib/quickstart/kratos/email-password
+      - type: bind
+        source: ./contrib/kratos
         target: /etc/config/kratos
-    command:
-      -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
     networks:
-      - intranet   
-
-  # passport-ui-node:
-  #   image: ga4gh/ga4gh-starter-kit-passport-ui-node
-  #   environment:
-  #     - KRATOS_PUBLIC_URL=http://kratos:4433/
-  #     - KRATOS_ADMIN_URL=http://kratos:4434/
-  #     - PORT=4455
-  #     - SECURITY_MODE=
-  #     - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
-  #   ports:
-  #     - "4455:4455"
-  #   restart: unless-stopped
-  #   networks:
-  #     - intranet
+      - intranet
 
   kratos:
     depends_on:
       - kratos-migrate
-    image: oryd/kratos:v0.5.5-alpha.1.pre.1-sqlite
+    image: oryd/kratos:v0.9.0-alpha.2
     ports:
-      - "4433:4433" # public
-      - "4434:4434" # admin
+      - '4433:4433' # public
+      - '4434:4434' # admin
     restart: unless-stopped
     environment:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
       - LOG_LEVEL=trace
-      - PASSPORT_BROKER_URL=google.com
-    command: serve -c /etc/config/kratos/kratos.yml --dev
-    # TRYING TO GET WEB HOOK WORKING [NOT WORKING YET]
-    # entrypoint: ["/bin/sh","-c"]
-    # command: export SELFSERVICE_FLOWS_REGISTRATION_AFTER_PASSWORD_HOOKS=/kratos-config/after-reg-config.yml
-
+    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
     volumes:
-      -
-        type: volume
+      - type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
-      # TRYING TO GET WEB HOOK WORKING [NOT WORKING YET]
-      # -
-      #   type: bind
-      #   source: ./kratos-config
-      #   target: /kratos-config
-      -
-        type: bind
-        source: ./contrib/quickstart/kratos/email-password
+      - type: bind
+        source: ./contrib/kratos
         target: /etc/config/kratos
     networks:
       - intranet
@@ -143,8 +114,8 @@ services:
   mailslurper:
     image: oryd/mailslurper:latest-smtps
     ports:
-      - "4436:4436"
-      - "4437:4437"
+      - '4436:4436'
+      - '4437:4437'
     networks:
       - intranet
 

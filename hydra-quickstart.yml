@@ -1,3 +1,4 @@
+version: '3.7'
 services:
   hydra:
     image: oryd/hydra:v1.11.7
@@ -12,20 +13,22 @@ services:
         target: /var/lib/sqlite
         read_only: false
       - type: bind
-        source: ./contrib/quickstart/5-min
+        source: ./contrib/hydra
         target: /etc/config/hydra
     environment:
-      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+      # - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+      - DSN=postgres://hydra:secret@postgresd:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
     restart: unless-stopped
     depends_on:
       - hydra-migrate
     networks:
       - intranet
-      
+
   hydra-migrate:
     image: oryd/hydra:v1.11.7
     environment:
-      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+      # - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+      - DSN=postgres://hydra:secret@postgresd:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
     command: migrate -c /etc/config/hydra/hydra.yml sql -e --yes
     volumes:
       - type: volume
@@ -33,21 +36,35 @@ services:
         target: /var/lib/sqlite
         read_only: false
       - type: bind
-        source: ./contrib/quickstart/5-min
+        source: ./contrib/hydra
         target: /etc/config/hydra
     restart: on-failure
     networks:
       - intranet
-      
-  passport-ui:
+
+  postgresd:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
     environment:
-      - HYDRA_ADMIN_URL=http://hydra:4445
-    image: ga4gh/ga4gh-starter-kit-passport-ui
+      - POSTGRES_USER=hydra
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=hydra
+    networks:
+      - intranet
+
+  passport-ui:
+    image: ga4gh/ga4gh-starter-kit-passport-ui-hydra
+    environment:
+      - HYDRA_ADMIN_URL=http://hydra:4445/
+      - KRATOS_PUBLIC_URL=http://kratos:4433/
+      - KRATOS_ADMIN_URL=http://kratos:4434/
     ports:
       - "3000:3000"
     restart: unless-stopped
     networks:
       - intranet
+
 networks:
   intranet:
 volumes:
