@@ -1,51 +1,53 @@
-import { NextFunction, Request, Response } from 'express';
-import config from '../config';
-import { AdminApi, Configuration } from '@oryd/kratos-client';
-import { isString, methodConfig, redirectOnSoftError } from '../helpers';
+import {
+  defaultConfig,
+  getUrlForFlow,
+  isQuerySet,
+  logger,
+  redirectOnSoftError,
+  requireAuth,
+  RouteCreator,
+  RouteRegistrator
+} from '../pkg'
 
-// Variable config has keys:
-// kratos: {
-//
-//   // The browser config key is used to redirect the user. It reflects where ORY Kratos' Public API
-//   // is accessible from. Here, we're assuming traffic going to `http://example.org/.ory/kratos/public/`
-//   // will be forwarded to ORY Kratos' Public API.
-//   browser: 'https://kratos.example.org',
-//
-//   // The location of the ORY Kratos Admin API
-//   admin: 'https://ory-kratos-admin.example-org.vpc',
-//
-//   // The location of the ORY Kratos Public API within the cluster
-//   public: 'https://ory-kratos-public.example-org.vpc',
-// },
+export const createSettingsRoute: RouteCreator =
+  (createHelpers) => (req, res, next) => {
+    res.locals.projectName = 'Account settings'
 
-const kratos = new AdminApi(new Configuration({ basePath: config.kratos.admin }));
+    const { flow, return_to = '' } = req.query
+    const helpers = createHelpers(req)
+    const { sdk, kratosBrowserUrl } = helpers
+    const initFlowUrl = getUrlForFlow(
+      kratosBrowserUrl,
+      'settings',
+      new URLSearchParams({ return_to: return_to.toString() })
+    )
 
-const settingsHandler = (req: Request, res: Response, next: NextFunction) => {
-  const flow = req.query.flow;
-  // The flow ID is used to identify the account settings flow and
-  // return data like the csrf_token and so on.
-  if (!flow || !isString(flow)) {
-    console.log('No flow found in URL, initializing flow.');
-    res.redirect(`${config.kratos.browser}/self-service/settings/browser`);
-    return;
+    // The flow is used to identify the settings and registration flow and
+    // return data like the csrf_token and so on.
+    if (!isQuerySet(flow)) {
+      logger.debug('No flow ID found in URL query initializing login flow', {
+        query: req.query
+      })
+      res.redirect(303, initFlowUrl)
+      return
+    }
+
+    return sdk
+      .getSelfServiceSettingsFlow(flow, undefined, req.header('cookie'))
+      .then(({ data: flow }) => {
+        // Render the data using a view (e.g. Jade Template):
+        res.render('settings', flow)
+      })
+      .catch(redirectOnSoftError(res, next, initFlowUrl))
   }
 
-  kratos
-    .getSelfServiceSettingsFlow(flow)
-    .then(({ status, data: flow }) => {
-      if (status !== 200) {
-        return Promise.reject(flow);
-      }
-
-      // Render the data using a view (e.g. Jade Template):
-      res.render('settings', {
-        ...flow,
-        password: methodConfig(flow, 'password'),
-        profile: methodConfig(flow, 'profile'),
-        oidc: methodConfig(flow, 'oidc'),
-      });
-    })
-    .catch(redirectOnSoftError(res, next, '/self-service/settings/browser'));
-};
-
-export default settingsHandler;
+export const registerSettingsRoute: RouteRegistrator = (
+  app,
+  createHelpers = defaultConfig
+) => {
+  app.get(
+    '/settings',
+    requireAuth(createHelpers),
+    createSettingsRoute(createHelpers)
+  )
+}

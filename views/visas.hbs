@@ -1,0 +1,31 @@
+<div class="app-container" id="passports">
+    <h1 class="typography-h1 card-title">All Visas</h1>
+
+    <div class="card">
+        <h3 class="typography-h3">Visas</h3>
+
+        {{#unless visas.[0]}}
+            <h3 class="typography-h3">
+                No visas to display.
+            </h3>
+        {{/unless}}
+
+        <ul style="list-style:none; padding-inline-start:0em; margin-block:0em">
+            {{#each visas}}
+                <li style="overflow:hidden; margin-bottom:0.5em;">
+                    <label for="{{this.id}}">{{this.visaName}}@{{this.visaIssuer}}</label>
+                    <br>
+                    <h5 class="typography-h5" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:var(--primary60);">
+                        {{this.visaDescription}}
+                    </h5>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <div class="card" style="margin-top: 18px">
+        <div class="card-action">
+            <a class="typography-link typography-h2" href="welcome">Back</a>
+        </div>
+    </div>
+</div>

@@ -1,27 +1,21 @@
 {
-  "compilerOptions": 
-  {
-    "resolveJsonModule": true,
+  "compilerOptions": {
+    "declaration": true,
+    // "resolveJsonModule": true,
     "target": "es5",
     "module": "commonjs",
-    "lib": 
-      [
-        "es2019",
-        "dom"
-      ],
-    "outDir": "./lib/kratos", // adding /kratos here
-    "rootDir": "./src/kratos", // adding /kratos here
+    "lib": [
+      "es2019",
+      "dom"
+    ],
+    "outDir": "./lib",
+    "rootDir": "./src",
     "strict": true,
-    "typeRoots": 
-      [
-        "./typings"
-      ],
+    "typeRoots": [
+      "./types"
+    ],
     "esModuleInterop": true,
-    // "references": [
-    //   {
-    //     "path": "../package2"
-    //   }
-    // ]
+    "skipLibCheck": true
   },
   "exclude": ["contrib"]
 }

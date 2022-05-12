@@ -17,10 +17,9 @@ services:
         target: /var/lib/sqlite
         read_only: false
       - type: bind
-        source: ./contrib/quickstart/5-min
+        source: ./contrib/hydra
         target: /etc/config/hydra
     environment:
-      # - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
       - DSN=postgres://hydra:secret@postgresd:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
     restart: unless-stopped
     depends_on:
@@ -31,7 +30,6 @@ services:
   hydra-migrate:
     image: oryd/hydra:v1.11.7
     environment:
-      # - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
       - DSN=postgres://hydra:secret@postgresd:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
     command: migrate -c /etc/config/hydra/hydra.yml sql -e --yes
     volumes:
@@ -40,7 +38,7 @@ services:
         target: /var/lib/sqlite
         read_only: false
       - type: bind
-        source: ./contrib/quickstart/5-min
+        source: ./contrib/hydra
         target: /etc/config/hydra
     restart: on-failure
     networks:
@@ -58,7 +56,7 @@ services:
       - intranet
 
   passport-ui-hydra:
-    image: ga4gh/ga4gh-starter-kit-passport-ui-hydra
+    image: oryd/hydra-login-consent-node:v1.11.8
     environment:
       - HYDRA_ADMIN_URL=http://hydra:4445/
       - KRATOS_PUBLIC_URL=http://kratos:4433/
@@ -72,47 +70,32 @@ services:
   ## Kratos ##
 
   kratos-migrate:
-    image: oryd/kratos:v0.5.5-alpha.1.pre.1-sqlite
+    image: oryd/kratos:v0.9.0-alpha.2
     environment:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc
     volumes:
-      -
-        type: volume
+      - type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
-      -
-        type: bind
-        source: ./contrib/quickstart/kratos/email-password
+      - type: bind
+        source: ./contrib/kratos
         target: /etc/config/kratos
-    command:
-      -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
     restart: on-failure
     networks:
       - intranet
 
-  # kratos-selfservice-ui-node:
-    # image: oryd/kratos-selfservice-ui-node:v0.5.0-alpha.1
-    # environment:
-    #   - KRATOS_PUBLIC_URL=http://kratos:4433/
-    #   - KRATOS_ADMIN_URL=http://kratos:4434/
-    #   - PORT=4455
-    #   - SECURITY_MODE=
-    #   - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
-    # networks:
-    #   - intranet
-    # restart: on-failure
-    # ports:
-    #   - "4455:4455"      
-
   passport-ui-node:
-    image: ga4gh/ga4gh-starter-kit-passport-ui-node
+    image: ga4gh/v0.9-kratos-ui-node # ga4gh/ga4gh-starter-kit-passport-ui-node
     environment:
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
       - PORT=4455
       - SECURITY_MODE=
       - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
+      - PASSPORT_BROKER_PUBLIC_URL=http://passport-broker:4500/ga4gh/passport/v1/  # correct hostname might be passport-broker.ga4gh.org?
+      - PASSPORT_BROKER_ADMIN_URL=http://passport-broker/admin/ga4gh/passport/v1/ 
     ports:
       - "4455:4455"
     restart: unless-stopped
@@ -122,25 +105,22 @@ services:
   kratos:
     depends_on:
       - kratos-migrate
-    image: oryd/kratos:v0.5.5-alpha.1.pre.1-sqlite
+    image: oryd/kratos:v0.9.0-alpha.2
     ports:
-      - "4433:4433" # public
-      - "4434:4434" # admin
+      - '4433:4433' # public
+      - '4434:4434' # admin
     restart: unless-stopped
     environment:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
       - LOG_LEVEL=trace
-    command:
-      serve -c /etc/config/kratos/kratos.yml --dev
+    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
     volumes:
-      -
-        type: volume
+      - type: volume
         source: kratos-sqlite
         target: /var/lib/sqlite
         read_only: false
-      -
-        type: bind
-        source: ./contrib/quickstart/kratos/email-password
+      - type: bind
+        source: ./contrib/kratos
         target: /etc/config/kratos
     networks:
       - intranet
