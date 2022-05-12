@@ -94,6 +94,8 @@ services:
       - PORT=4455
       - SECURITY_MODE=
       - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
+      - PASSPORT_BROKER_PUBLIC_URL=http://passport-broker:4500/ga4gh/passport/v1/  # correct hostname might be passport-broker.ga4gh.org?
+      - PASSPORT_BROKER_ADMIN_URL=http://passport-broker/admin/ga4gh/passport/v1/ 
     ports:
       - "4455:4455"
     restart: unless-stopped

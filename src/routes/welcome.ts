@@ -28,7 +28,11 @@ export const createWelcomeRoute: RouteCreator =
         : `No valid Ory Session was found.
 Please sign in to receive one.`,
       hasSession: Boolean(session),
-      logoutUrl
+      logoutUrl,
+      researcherId: session ? session.identity.id : "Ory Session not found",
+      researcherFirstName: session ? session.identity.traits.name.first : "Ory Session not found",
+      researcherLastName: session ? session.identity.traits.name.first : "Ory Session not found",
+      researcherEmail: session ? session.identity.traits.email: "Ory Session not found"
     })
   }
 

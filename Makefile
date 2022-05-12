@@ -18,6 +18,8 @@ passport-develop-1:
 
 	KRATOS_PUBLIC_URL=http://localhost:4433/ \
 	KRATOS_BROWSER_URL=http://127.0.0.1:4433/ \
+    PASSPORT_BROKER_PUBLIC_URL=http://localhost:4500/ga4gh/passport/v1/ \
+    PASSPORT_BROKER_ADMIN_URL=http://localhost:4501/admin/ga4gh/passport/v1/ \
     PORT=4455 \
 	SECURITY_MODE= \
 	node lib/index.js
