@@ -3,19 +3,33 @@
     <div class="card">
       <h2 class="typography-h2 card-title">GA4GH Passports: Starterkit Implementation</h2>
       <p class="typography-paragraph">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis maiores possimus nisi magnam. 
-        Cum saepe at fugit esse odio deleniti magni expedita. Eos modi a non totam labore maxime ex?
+        Welcome to the GA4GH Passports: Starterkit Implementation. This service is made up of three subservices:
       </p>
+      <p class="typography-paragraph">
+        <span style="color:#8dc53f; font-weight:450;">Passport UI Node</span> which is what you are seeing right now, it is the user interface for the other two services. <br>
+        <span style="color:#8dc53f; font-weight:450;">Ory Kratos</span> which is an open source authentication and user management service. <br>
+        <span style="color:#8dc53f; font-weight:450;">Passport Broker</span> which stores users' passport and visa information.
+      </p>
+      {{!-- <p class="typography-paragraph">
+        <span style="color:#437300; font-weight:450;">View All Visas</span> to see all visas available in the Passport Broker. <br>
+        <span style="color:#437300; font-weight:450;">Get Passport Token</span> to view your available visas, and to possibly generate a passport token for the visas you select. <br>
+        <span style="color:#437300; font-weight:450;">GA4GH Starter Kit</span> or <span style="color:#437300; font-weight:450;">GA4GH Passports Specification</span> to learn more.
+      </p> --}}
       <div class="row">
         <div class="col-md-4 col-xs-12">
           <div class="box">
-            {{!-- <h2 class="typography-h3">Documentation</h2>
+            {{!-- <h2 class="typography-h3">Learn More</h2>
             <p class="typography-paragraph">
               Here are some useful documentation pieces that help you get started.
-            </p> --}}
+            </p>  --}}
             <div class="row">
-              {{> ui_docs_button testId="get-passport" href="passport" label="Get Passport Token"}}
               {{> ui_docs_button testId="view-visas" href="visas" label="View All Visas"}}
+              {{> ui_docs_button testId="get-passport" href="passport" label="Get Passport Token"}}
+            </div>
+              <h2 class="typography-h3">Learn More</h2>
+            <div class="row">
+              {{> ui_docs_button testId="get-passport" href="https://starterkit.ga4gh.org/" label="GA4GH Starter Kit"}}
+              {{> ui_docs_button testId="get-passport" href="https://github.com/ga4gh-duri/ga4gh-duri.github.io/blob/master/researcher_ids/ga4gh_passport_v1.md" label="GA4GH Passports Specification"}}
               {{!-- {{> ui_docs_button testId="get-started" href="https://www.ory.sh/docs/guides/protect-page-login" label="Get Started"}}
               {{> ui_docs_button testId="user-flows" href="https://www.ory.sh/docs/concepts/self-service" label="User Flows"}}
               {{> ui_docs_button testId="identities" href="https://www.ory.sh/docs/concepts/identity" label="Identities"}}
@@ -49,7 +63,7 @@
     </div>
 
     <div class="card">
-      <h2 class="typography-h2">Other User Interface Screens</h2>
+      <h2 class="typography-h2">Account Management</h2>
       <div class="row">
         {{> ui_screen_button testId="login" link="login" label="Sign In" disabled=hasSession}}
         {{> ui_screen_button testId="sign-up" link="registration" label="Sign Up" disabled=hasSession}}

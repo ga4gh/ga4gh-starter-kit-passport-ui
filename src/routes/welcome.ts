@@ -9,7 +9,7 @@ import {
 
 export const createWelcomeRoute: RouteCreator =
   (createHelpers) => async (req, res) => {
-    res.locals.projectName = 'Welcome to Ory'
+    res.locals.projectName = 'Starter Kit: Passports'
 
     const { sdk } = createHelpers(req)
     const session = req.session

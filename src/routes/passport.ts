@@ -15,7 +15,7 @@ import {
 
   export const createPassportRoute: RouteCreator =
     (createHelpers) => async (req, res, next) => {
-      res.locals.projectName = 'Passport'
+      res.locals.projectName = 'Passport Token'
   
       const { flow, return_to = '' } = req.query
       const session = req.session
