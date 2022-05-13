@@ -2,13 +2,13 @@
     <h1 class="typography-h1 card-title">GA4GH Passports Landing Page</h1>
 
     <div class="card">
-        <h3 class="typography-h3"><b>Profile</b></h3>
+        <h2 class="typography-h2"><b>Profile</b></h2>
 
         <h3 class="typography-h3" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em;">
             {{session.identity.traits.name.first}} {{session.identity.traits.name.last}}
         </h3>
 
-        <h3 class="typography-h3" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:var(--primary60);">
+        <h3 class="typography-h3" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:#437300;">
             {{session.identity.traits.email}}
         </h3>
     </div>
@@ -19,7 +19,7 @@
         <input type="hidden" id="researcherFirstName" name="researcherFirstName" value="{{session.identity.traits.name.first}}" />
         <input type="hidden" id="researcherLastName" name="researcherLastName" value="{{session.identity.traits.name.last}}" />
         <div class="card">
-            <h3 class="typography-h3"><b>Visas</b></h3>
+            <h2 class="typography-h2"><b>Visas</b></h2>
 
             {{#unless userVisas.[0]}}
                 <h3 class="typography-h3">
@@ -33,11 +33,11 @@
                         <tr>
                             <td><input type="checkbox" id="requestedVisas[{{@index}}]" value="{{this.id}}" name="requestedVisas" /></td>
                             <td>                    
-                                <label for="requestedVisas[{{@index}}]">{{this.visaName}}@{{this.visaIssuer}}</label>
+                                <label class="typography-h3" for="requestedVisas[{{@index}}]">{{this.visaName}}@{{this.visaIssuer}}</label>
                                 <br>
-                                <h5 class="typography-h5" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:var(--primary60);">
+                                <h3 class="typography-h3" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:#437300;">
                                     {{this.visaDescription}}
-                                </h5>
+                                </h3>
                             </td>
                         </tr>
                     </li>

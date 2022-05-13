@@ -43,7 +43,7 @@ main {
 
 .card-title {
     text-align: center;
-    color: var(--primary60);
+    color: #8dc53f;
 }
 
 .card-action {
@@ -76,7 +76,7 @@ fieldset {
 }
 
 .required-indicator {
-    color: var(--primary60);
+    color: #8dc53f;
 }
 
 .checkbox {
@@ -109,6 +109,50 @@ fieldset {
     background-color: #E1E1E3;
 }
 
+.input-button a.button[aria-disabled="false"] {
+    color: #ffffff;
+    background-color:#8dc53f;
+}
+
+.input-button a.button[aria-disabled="false"]:hover {
+    color: #ffffff;
+    background-color:#b4e374;
+}
+
+.input-button .button {
+    color: #ffffff;
+    background-color:#8dc53f;
+}
+
+.input-button .button:focus {
+    color: #ffffff;
+    background-color:#437300;
+}
+
+.input-button .button:hover {
+    color: #ffffff;
+    background-color:#b4e374;
+}
+
+.typography-link:visited {
+    color: #8dc53f;
+}
+
+.text-input:hover, .text-input:focus, .text-input:active {
+    border-color: #437300;
+}
+
+.fork-me-link:hover {
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.card-title {
+    color: #437300;
+}
+
+.input-but
+
 .recovery-code {
     margin-bottom: .5rem;
 }
@@ -116,4 +160,8 @@ fieldset {
 form img {
     margin: 0 auto;
     display: block;
+}
+
+.button {
+    background: #8dc53f;
 }

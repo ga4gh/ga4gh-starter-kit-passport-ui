@@ -29,10 +29,11 @@ export const createWelcomeRoute: RouteCreator =
 Please sign in to receive one.`,
       hasSession: Boolean(session),
       logoutUrl,
-      researcherId: session ? session.identity.id : "Ory Session not found",
-      researcherFirstName: session ? session.identity.traits.name.first : "Ory Session not found",
-      researcherLastName: session ? session.identity.traits.name.first : "Ory Session not found",
-      researcherEmail: session ? session.identity.traits.email: "Ory Session not found"
+      noSession: session ? false : true,
+      researcherId: session ? session.identity.id : null,
+      researcherFirstName: session ? session.identity.traits.name.first : null,
+      researcherLastName: session ? session.identity.traits.name.last : null,
+      researcherEmail: session ? session.identity.traits.email: null
     })
   }
 

@@ -48,6 +48,14 @@ import {
   export const getPassportTokenRoute: RouteCreator =
   (createHelpers) => async (req, res, next) => {
 
+    if(!Array.isArray(req.body.requestedVisas)) {
+      if(req.body.requestedVisas === undefined) {
+        req.body.requestedVisas = []
+      } else {
+        req.body.requestedVisas = [req.body.requestedVisas]
+      }
+    }
+
     console.log("REQ.BODY: ")
     console.log(req.body)
 
