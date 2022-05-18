@@ -58,6 +58,16 @@ export const createLoginRoute: RouteCreator =
       .getSelfServiceLoginFlow(flow, req.header('cookie'))
       .then(({ data: flow }) => {
         // Render the data using a view (e.g. Jade Template):
+
+        // Change "ID" to "Email" on the login page
+        for(let i = 0; i < flow.ui.nodes.length; i++)
+        {
+          if(flow.ui.nodes[i].meta.label?.text == "ID")
+          {
+            flow.ui.nodes[i].meta.label!.text = "Email"
+          }
+        }
+
         res.render('login', {
           ...flow,
           isAuthenticated: flow.refresh || flow.requested_aal === 'aal2',
