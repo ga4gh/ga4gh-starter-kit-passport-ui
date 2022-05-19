@@ -13,7 +13,7 @@
         </h3>
     </div>
 
-    <form action="passport" method="POST" style="margin-top:0em">
+    <form id="visaForm" action="passport" method="POST" style="margin-top:0em">
         <input type="hidden" id="researcherId" name="researcherId" value="{{session.identity.id}}" />
         <input type="hidden" id="researcherEmail" name="researcherEmail" value="{{session.identity.traits.email}}" />
         <input type="hidden" id="researcherFirstName" name="researcherFirstName" value="{{session.identity.traits.name.first}}" />
@@ -35,7 +35,7 @@
                             <td>                    
                                 <label class="typography-h3" for="requestedVisas[{{@index}}]">{{this.visaName}}@{{this.visaIssuer}}</label>
                                 <br>
-                                <h3 class="typography-h3" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:#437300;">
+                                <h3 class="typography-h3 visaCheckBox" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:#437300;">
                                     {{this.visaDescription}}
                                 </h3>
                             </td>
@@ -46,7 +46,7 @@
         </div>
         
         <div class="input-button">
-            <button class="button" style="padding:10px" {{#unless userVisas.[0]}} disabled {{/unless}}>Get Passport Token</button>
+            <button class="button" id="submitButton" style="padding:10px" {{#unless userVisas.[0]}} disabled {{/unless}}>Get Passport Token</button>
         </div>
     </form>
 
@@ -56,3 +56,20 @@
         </div>
     </div>
 </div>
+
+{{!-- JavaScript / JQuery --}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    // Disable button if no visas are selected
+    $(function() {
+        $('#submitButton').attr('disabled', 'disabled');
+
+        $('input[type="checkbox"]').click(function() {
+            if ($("#visaForm input:checkbox:checked").length > 0) {
+                $('#submitButton').removeAttr('disabled');
+            } else {
+                $('#submitButton').attr('disabled', 'disabled');
+            }
+        });
+    });
+</script>
