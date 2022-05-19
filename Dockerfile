@@ -1,4 +1,6 @@
-FROM node:13.6-alpine
+# FROM node:13.6-alpine (what was here before, using old Ory Kratos)
+# FROM node:17.0-alpine (what they use in the default Ory Kratos repo)
+FROM node:17.7.1-alpine3.14
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -18,7 +20,8 @@ RUN if [ "$LINK" == "true" ]; then (cd ./contrib/sdk/generated; rm -rf node_modu
     cp -r ./contrib/sdk/generated/* node_modules/@oryd/kratos-client/; \
     fi
 
-RUN npm run build
+# removes library, and runs npx tsc (creates a new /lib/ folder)
+RUN npm run build 
 
 ENTRYPOINT npm run serve
 

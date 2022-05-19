@@ -2,8 +2,12 @@
     <h1 class="typography-h1 card-title">Passport Token</h1>
 
     <div class="card" style="word-wrap: break-word;">
-        <p class="typography-h3" style="font-size:12px; line-height:14px">{{token}}
+        <p class="typography-h3" id="passportToken" style="font-size:12px; line-height:14px">{{token}}
         </p>
+    </div>
+
+    <div class="input-button">
+            <button class="button" id="copyTextButton" style="padding:10px" onclick="copyToClipboard('#passportToken')">Copy Passport Token to Clipboard</button>
     </div>
 
     <div class="card" style="margin-top: 18px">
@@ -12,3 +16,15 @@
         </div>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+        alert("Passport token copied");
+    }
+</script>

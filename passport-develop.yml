@@ -112,7 +112,7 @@ services:
   ## Passports ##
 
   passport-broker:
-    image: ga4gh/ga4gh-starter-kit-passport-broker:0.0.2-rc3
+    image: ga4gh/ga4gh-starter-kit-passport-broker:0.0.2
     ports:
       - '4500:4500' # public
       - '4501:4501' # admin
