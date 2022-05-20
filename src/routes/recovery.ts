@@ -1,33 +1,52 @@
-import { NextFunction, Request, Response } from 'express';
-import config from '../config';
-import { Configuration, PublicApi } from '@oryd/kratos-client';
-import { isString, methodConfig, redirectOnSoftError } from '../helpers';
+import {
+  defaultConfig,
+  getUrlForFlow,
+  isQuerySet,
+  logger,
+  redirectOnSoftError,
+  requireNoAuth,
+  RouteCreator,
+  RouteRegistrator
+} from '../pkg'
 
-const kratos = new PublicApi(new Configuration({ basePath: config.kratos.public }));
+export const createRecoveryRoute: RouteCreator =
+  (createHelpers) => (req, res, next) => {
+    res.locals.projectName = 'Recover account'
 
-export default (req: Request, res: Response, next: NextFunction) => {
-  const flow = req.query.flow;
+    const { flow, return_to = '' } = req.query
+    const helpers = createHelpers(req)
+    const { sdk, kratosBrowserUrl } = helpers
+    const initFlowUrl = getUrlForFlow(
+      kratosBrowserUrl,
+      'recovery',
+      new URLSearchParams({ return_to: return_to.toString() })
+    )
 
-  // The flow is used to identify the account recovery flow and
-  // return data like the csrf_token and so on.
-  if (!flow || !isString(flow)) {
-    console.log('No request found in URL, initializing recovery flow.');
-    res.redirect(`${config.kratos.browser}/self-service/recovery/browser`);
-    return;
+    // The flow is used to identify the settings and registration flow and
+    // return data like the csrf_token and so on.
+    if (!isQuerySet(flow)) {
+      logger.debug('No flow ID found in URL query initializing login flow', {
+        query: req.query
+      })
+      res.redirect(303, initFlowUrl)
+      return
+    }
+
+    return sdk
+      .getSelfServiceRecoveryFlow(flow, req.header('cookie'))
+      .then(({ data: flow }) => {
+        res.render('recovery', flow)
+      })
+      .catch(redirectOnSoftError(res, next, initFlowUrl))
   }
 
-  kratos
-    .getSelfServiceRecoveryFlow(flow)
-    .then(({ status, data: flow }) => {
-      if (status !== 200) {
-        return Promise.reject(flow);
-      }
-
-      // Render the data using a view (e.g. Jade Template):
-      res.render('recovery', {
-        ...flow,
-        link: methodConfig(flow, 'link')
-      });
-    })
-    .catch(redirectOnSoftError(res, next, '/self-service/recovery/browser'));
+export const registerRecoveryRoute: RouteRegistrator = (
+  app,
+  createHelpers = defaultConfig
+) => {
+  app.get(
+    '/recovery',
+    requireNoAuth(createHelpers),
+    createRecoveryRoute(createHelpers)
+  )
 }

@@ -1,23 +1,24 @@
 {
-  "compilerOptions": 
-  {
+  "compilerOptions": {
+    "declaration": true,
     "resolveJsonModule": true,
     "target": "es5",
     "module": "commonjs",
-    "lib": 
-      [
-        "es2019",
-        "dom"
-      ],
+    "lib": [
+      "es2019",
+      "dom"
+    ],
     "outDir": "./lib",
     "rootDir": "./src",
     "strict": true,
-    "typeRoots": 
-      [
-        "./typings"
-      ],
+    "typeRoots": [
+      "./types"
+    ],
     "esModuleInterop": true,
-    "noImplicitAny": false // for data: body error in login.ts
+    "skipLibCheck": true
   },
-  "exclude": ["contrib"]
+  "exclude": [
+    "contrib", 
+    "**/*.d.ts" // Added this because lib/index.d.ts doesn't like being overwritten (even though its an empty file)
+  ]
 }

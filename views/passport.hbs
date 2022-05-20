@@ -1,0 +1,75 @@
+<div class="app-container" id="passports">
+    <h1 class="typography-h1 card-title">GA4GH Passports Landing Page</h1>
+
+    <div class="card">
+        <h2 class="typography-h2"><b>Profile</b></h2>
+
+        <h3 class="typography-h3" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em;">
+            {{session.identity.traits.name.first}} {{session.identity.traits.name.last}}
+        </h3>
+
+        <h3 class="typography-h3" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:#1B75BB;">
+            {{session.identity.traits.email}}
+        </h3>
+    </div>
+
+    <form id="visaForm" action="passport" method="POST" style="margin-top:0em">
+        <input type="hidden" id="researcherId" name="researcherId" value="{{session.identity.id}}" />
+        <input type="hidden" id="researcherEmail" name="researcherEmail" value="{{session.identity.traits.email}}" />
+        <input type="hidden" id="researcherFirstName" name="researcherFirstName" value="{{session.identity.traits.name.first}}" />
+        <input type="hidden" id="researcherLastName" name="researcherLastName" value="{{session.identity.traits.name.last}}" />
+        <div class="card">
+            <h2 class="typography-h2"><b>Visas</b></h2>
+
+            {{#unless userVisas.[0]}}
+                <h3 class="typography-h3">
+                    You currently have no active visas, please contact your administrator to obtain new ones.
+                </h3>
+            {{/unless}}
+
+            <ul style="list-style:none; padding-inline-start:0em; margin-block:0em">
+                {{#each userVisas}}
+                    <li style="overflow:hidden; margin-bottom:0.5em;">
+                        <tr>
+                            <td><input type="checkbox" id="requestedVisas[{{@index}}]" value="{{this.id}}" name="requestedVisas" /></td>
+                            <td>                    
+                                <label class="typography-h3" for="requestedVisas[{{@index}}]">{{this.visaName}}@{{this.visaIssuer}}</label>
+                                <br>
+                                <h3 class="typography-h3" style="margin:0em; margin-top:0.4em; margin-bottom:0.4em; color:#1B75BB;">
+                                    {{this.visaDescription}}
+                                </h3>
+                            </td>
+                        </tr>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+        
+        <div class="input-button">
+            <button class="button" id="submitButton" style="padding:10px" {{#unless userVisas.[0]}} disabled {{/unless}}>Get Passport Token</button>
+        </div>
+    </form>
+
+    <div class="card" style="margin-top: 18px">
+        <div class="card-action">
+            <a class="typography-link typography-h2" href="welcome">Back</a>
+        </div>
+    </div>
+</div>
+
+{{!-- JavaScript / JQuery --}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    // Disable button if no visas are selected
+    $(function() {
+        $('#submitButton').attr('disabled', 'disabled');
+
+        $('input[type="checkbox"]').click(function() {
+            if ($("#visaForm input:checkbox:checked").length > 0) {
+                $('#submitButton').removeAttr('disabled');
+            } else {
+                $('#submitButton').attr('disabled', 'disabled');
+            }
+        });
+    });
+</script>
