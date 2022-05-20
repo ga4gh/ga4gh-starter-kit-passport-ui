@@ -1,9 +1,15 @@
+VERSION := $(shell cat package.json | grep version | rev | cut -f 1 -d " " | rev | sed -e s:,::g | sed -e s:\"::g)
+
 Nothing:
 	@echo "No target provided. Stop"
 
 .PHONY: docker-build
+docker-build-test:
+	docker build -t ga4gh/ga4gh-starter-kit-passport-ui-node:test .
+
+.PHONY: docker-build
 docker-build:
-	docker build -t ga4gh/ga4gh-starter-kit-passport-ui-node .
+	docker build -t ga4gh/ga4gh-starter-kit-passport-ui-node:${VERSION} .
 
 # Runs the passport network (Hydra + Kratos + our UI)
 .PHONY: passport-network

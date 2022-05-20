@@ -1,7 +1,7 @@
 {
-  "name": "@ory/kratos-selfservice-ui-node",
-  "version": "0.0.9",
-  "description": "A reference implementation of a selfservice UI for ORY Kratos in node.js",
+  "name": "ga4gh-starter-kit-passport-ui",
+  "version": "0.0.1",
+  "description": "UI for the Starter Kit reference implementation of the GA4GH Passport specification",
   "main": "src/index.ts",
   "scripts": {
     "build": "rm -rf lib/* && tsc",
@@ -16,12 +16,9 @@
     "type": "git",
     "url": "git+https://github.com/ory/kratos-selfservice-ui-node.git"
   },
-  "author": "Aeneas Rekkas",
+  "author": "Emre Ferhatoglu",
   "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/ory/kratos-selfservice-ui-node/issues"
-  },
-  "homepage": "https://github.com/ory/kratos-selfservice-ui-node#readme",
+  "homepage": "https://github.com/ga4gh/ga4gh-starter-kit-passport-ui",
   "dependencies": {
     "@ory/client": "0.0.1-alpha.21",
     "@ory/integrations": "0.1.2",
