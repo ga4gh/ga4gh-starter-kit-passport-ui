@@ -15,7 +15,7 @@ import {
 
   export const createPassportRoute: RouteCreator =
     (createHelpers) => async (req, res, next) => {
-      res.locals.projectName = 'Passport'
+      res.locals.projectName = 'Passport Token'
   
       const { flow, return_to = '' } = req.query
       const session = req.session
@@ -47,6 +47,14 @@ import {
 
   export const getPassportTokenRoute: RouteCreator =
   (createHelpers) => async (req, res, next) => {
+
+    if(!Array.isArray(req.body.requestedVisas)) {
+      if(req.body.requestedVisas === undefined) {
+        req.body.requestedVisas = []
+      } else {
+        req.body.requestedVisas = [req.body.requestedVisas]
+      }
+    }
 
     console.log("REQ.BODY: ")
     console.log(req.body)
