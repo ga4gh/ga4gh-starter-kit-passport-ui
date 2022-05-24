@@ -118,7 +118,7 @@ In the body include a JSON object with two keys, first the `"id"` which should b
 Upon a succesful PUT request, you should get back to body object you have sent.
 
 ***
-###### Gettinga Passport JWT (Json Web Token)
+###### Getting a Passport JWT (Json Web Token)
 
 Back in the [welcome page](http://127.0.0.1:4455/welcome) press [Get Passport Token](http://127.0.0.1:4455/passport). On this page you should see your assigned visas, if no visas are assigned please look at the previous step. Select some visas, and then press Get Passport Token.
 
