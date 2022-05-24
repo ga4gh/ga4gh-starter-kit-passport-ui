@@ -87,7 +87,7 @@ services:
       - intranet
 
   passport-ui-node:
-    image: ga4gh/ga4gh-starter-kit-passport-ui-node:test
+    image: ga4gh/ga4gh-starter-kit-passport-ui-node
     environment:
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
