@@ -74,13 +74,22 @@ After signing up, you should see your account information on the welcome page, u
 Upon signing up, a user in the passport broker service is also created. You can confirm this by sending a GET request to the `http://localhost:4501/admin/ga4gh/passport/v1/users` endpoint. There are some example users, but you should see your account's ID in the list of users that is returned (the same ID seen on under User Information).
 
 ***
-## Assigning Visas to a User
+###### Assigning Visas to a User
 
-You can see what visas a user have by sending a GET request to the `http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>` endpoint, make sure to change `<USER_ID>` to a valid user ID.
+You can see what visas a user have by sending a GET request to the endpoint:
+```
+http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>
+```
+Make sure to change `<USER_ID>` to a valid user ID.
 
-You can assign new visas to a user by sending a PUT request to the same endpoint `http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>`. In this PUT request, you need to include...
+You can assign new visas to a user by sending a PUT request to the same endpoint:
+```
+http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>
+```
+In this PUT request, you need to include...
 
-In headers, include a key `Content-Type` with value `application/json`. In the body include a JSON object with two keys, first the `"id"` which should be the users ID as a string, and `"passportVisaAssertions"` which will be an array of visas. See an example body below:
+In headers, include a key `Content-Type` with value `application/json`. 
+In the body include a JSON object with two keys, first the `"id"` which should be the users ID as a string, and `"passportVisaAssertions"` which will be an array of visas. See an example body below:
 ```
 {
     "id": "<USER_ID>",
@@ -106,3 +115,11 @@ In headers, include a key `Content-Type` with value `application/json`. In the b
     ]
 }
 ```
+Upon a succesful PUT request, you should get back to body object you have sent.
+
+***
+###### Gettinga Passport JWT (Json Web Token)
+
+Back in the [welcome page](http://127.0.0.1:4455/welcome) press [Get Passport Token](http://127.0.0.1:4455/passport). On this page you should see your assigned visas, if no visas are assigned please look at the previous step. Select some visas, and then press Get Passport Token.
+
+You can confirm the validity of your JWT token by visiting https://jwt.io/ and pasting the JWT token to examine its contents.
