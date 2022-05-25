@@ -81,7 +81,6 @@ Run the command:
 ```
 python utils/GetServiceInfo.py
 ```
-
 ###### API Platform
 Send a GET request to the `http://localhost:4500/ga4gh/passport/v1/service-info` endpoint.
 
@@ -122,7 +121,6 @@ Run the command:
 python utils/GetUserVisas.py \
 <USER_ID>
 ```
-
 ###### API Platform
 Send a GET request to the endpoint:
 ```
@@ -143,7 +141,6 @@ Run the command:
 ```
 python utils/GetAllVisas.py
 ```
-
 ###### API Platform
 Send a GET request to the endpoint:
 ```
@@ -166,7 +163,6 @@ python3 utils/PutVisasToUser.py \
 <VISA_ID_1> \
 <VISA_ID_2>
 ```
-
 ###### API Platform
 You can assign new visas to a user by sending a PUT request to the same endpoint:
 ```
@@ -203,7 +199,7 @@ In the body include a JSON object with two keys, first the `"id"` which should b
 ```
 *Make sure to change `<USER_ID>` and `<VISA_ID_#>` to a valid values.
 
-###### API Platform
+###### Response
 Upon a succesful PUT request, you should get back to body object you have sent.
 
 ***
