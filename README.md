@@ -73,6 +73,10 @@ After signing up, you should see your account information on the welcome page, u
 
 Upon signing up, a user in the passport broker service is also created. You can confirm this by sending a GET request to the `http://localhost:4501/admin/ga4gh/passport/v1/users` endpoint. There are some example users, but you should see your account's ID in the list of users that is returned (the same ID seen on under User Information).
 
+```diff
++ text in green - hello?
+```
+
 ***
 ###### Assigning Visas to a User
 
