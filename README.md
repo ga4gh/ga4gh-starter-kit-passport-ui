@@ -10,7 +10,6 @@ First build the `docker image` with the contents of this repo:
 ```
 make docker-build
 ```
-
 Confirm the `docker image` is present by running;
 ```
 docker images
@@ -125,8 +124,9 @@ Run the command:
 python utils/GetUserVisas.py \
 <USER_ID>
 ```
-Make sure to change `<USER_ID>` to a valid user ID.
+*Make sure to change `<USER_ID>` to a valid user ID.*
 
+***
 ## See All Available Visas
 
 You can see all available visas in the Passport Broker by:
@@ -143,6 +143,7 @@ Run the command:
 python utils/GetAllVisas.py
 ```
 
+***
 ## Assigning New Visas to a User
 
 Note the ID of the visas you would like to add, see the previous step to GET all available visas.
@@ -150,7 +151,7 @@ Note the ID of the visas you would like to add, see the previous step to GET all
 ###### Python
 You should have atleast one visa ID present, but you can assert more than one at once.
 ```
-python3 utils/AddVisasToUser.py \
+python3 utils/PutVisasToUser.py \
 <USER_ID> \
 <VISA_ID_1> \
 <VISA_ID_2>
@@ -190,6 +191,8 @@ In the body include a JSON object with two keys, first the `"id"` which should b
     ]
 }
 ```
+*Make sure to change `<USER_ID>` and `<VISA_ID_#>` to a valid values.
+
 Upon a succesful PUT request, you should get back to body object you have sent.
 
 ***
