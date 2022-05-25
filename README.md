@@ -25,14 +25,11 @@ Spin up the docker compose file by running:
 ```
 make passport-network
 ```
-
 Note: If you would like to modify the ui-node locally, you can also run two commands in two separate terminal tabs...
-
 For the UI-node:
 ```
 make passport-develop-1
 ```
-
 For all other services:
 ```
 make passport-develop-2
@@ -48,7 +45,6 @@ You can confirm this by confirming the lines (not necessarily one after the othe
 ga4gh-starter-kit-passport-ui_kratos-migrate_1 exited with code 0
 ga4gh-starter-kit-passport-ui_hydra-migrate_1 exited with code 0
 ```
-
 You can also confirm by opening the currently active docker compose in the Docker Desktop app, you should see the two migration services
 grayed out. The services are named `ga4gh-starter-kit-passport-ui_kratos-migrate_1` and `ga4gh-starter-kit-passport-ui_hydra-migrate_1`.
 
@@ -58,32 +54,39 @@ In the rest of this document, you will need to send some API requests to the Pas
 can send requests either via your favorite API platform (such as [Postman](https://www.postman.com/)), or via the [python scripts](./utils) present in this document.
 
 If you are going to be sending the requests via the python scripts, you should confirm you have the correct python modules installed:
+*Note: You should replace `python` with `python3`, and `pip` with `pip3` if you are using Python 3 for the commands below.*
 1. Confirm python is installed by running:
-
-    *choose the correct command depending on your python version*
 ```
 python --version
-python3 --version
 ```
 2. If not installed, visit [python.org](https://www.python.org/downloads/) to download and install it.
 3. The `pip` module should come pre-installed, you can check by running the command:
-
-    *choose the correct command depending on your python version*
 ```
 pip --version
-pip3 --version
 ```
 4. If `pip` is not available, visit the [pip documentation website](https://pip.pypa.io/en/stable/installation/) to set it up.
+5. Download the required python modules by running the command:
+    *choose the correct command depending on your python version*
+```
+pip install -r requirements.txt
+```
 
 ***
-###### The Passport Broker
+## The Passport Broker
 One crucial service is the passport broker, which is a docker container as well. It is named `ga4gh-starter-kit-passport-ui_passport-broker_1`.
 We can interact with the service by sending it various different API requests.
 
-Confirm the service is working by sending a GET request to the `http://localhost:4500/ga4gh/passport/v1/service-info` endpoint. You should get
-back an object body starting with `id` with value `"org.ga4gh.starterkit.passport.broker"`, and other information.
+Confirm the service is working:
 
-Keep your API platform handy, since we will be sending other requests to the Passport Broker.
+###### API Platform
+Send a GET request to the `http://localhost:4500/ga4gh/passport/v1/service-info` endpoint.
+
+###### Python
+Run the command:
+```
+python utils/GetServiceInfo.py
+```
+You should get back an object body starting with `id` with value `"org.ga4gh.starterkit.passport.broker"`, and other information.
 
 ***
 ## Interacting with the Passport Service
@@ -93,22 +96,67 @@ Towards the bottom, under Account Management press [Sign Up](http://127.0.0.1:44
 
 After signing up, you should see your account information on the welcome page, under User Information.
 
-Upon signing up, a user in the passport broker service is also created. You can confirm this by sending a GET request to the `http://localhost:4501/admin/ga4gh/passport/v1/users` endpoint. There are some example users, but you should see your account's ID in the list of users that is returned (the same ID seen on under User Information).
+Upon signing up, a user in the passport broker service is also created. Confirm the new user is created by:
 
-```diff
-+ text in green - hello?
-wait what?
+###### API Platform
+Sending a GET request to the `http://localhost:4501/admin/ga4gh/passport/v1/users` endpoint. 
+
+###### Python
+Run the command:
 ```
+python utils/GetAllUsers.py
+```
+There are some example users, but you should see your account's ID in the list of users that is returned (the same ID seen on under User Information).
 
 ***
-###### Assigning Visas to a User
+## Check the Visas of a User
 
-You can see what visas a user have by sending a GET request to the endpoint:
+Check what visas a user has asserted by: 
+
+###### API Platform
+Sending a GET request to the endpoint:
 ```
 http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>
 ```
+
+###### Python
+Run the command:
+```
+python utils/GetUserVisas.py \
+<USER_ID>
+```
 Make sure to change `<USER_ID>` to a valid user ID.
 
+## See All Available Visas
+
+You can see all available visas in the Passport Broker by:
+
+###### API Platform
+Sending a GET request to the endpoint:
+```
+http://localhost:4501/admin/ga4gh/passport/v1/visas
+```
+
+###### Python
+Run the command:
+```
+python utils/GetAllVisas.py
+```
+
+## Assigning New Visas to a User
+
+Note the ID of the visas you would like to add, see the previous step to GET all available visas.
+
+###### Python
+You should have atleast one visa ID present, but you can assert more than one at once.
+```
+python3 utils/AddVisasToUser.py \
+<USER_ID> \
+<VISA_ID_1> \
+<VISA_ID_2>
+```
+
+###### API Platform
 You can assign new visas to a user by sending a PUT request to the same endpoint:
 ```
 http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>
