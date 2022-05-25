@@ -53,9 +53,22 @@ You can also confirm by opening the currently active docker compose in the Docke
 grayed out. The services are named `ga4gh-starter-kit-passport-ui_kratos-migrate_1` and `ga4gh-starter-kit-passport-ui_hydra-migrate_1`.
 
 ***
+## Sending API Requests
+In the rest of this document, you will need to send some API requests to the Passport Broker service, both for testing and using purposes. You
+can send requests either via your favorite API platform (such as [Postman](https://www.postman.com/)), or via the [python scripts](./utils) present in this document.
+
+If you are going to be sending the requests via the python scripts, you should confirm you have the correct python modules installed:
+1. Confirm python is installed by running: *choose the correct command depending on your python version*
+```
+python --version
+python3 --version
+```
+    - If not installed, visit [python.org](https://www.python.org/downloads/) to download and install it.
+
+***
 ###### The Passport Broker
 One crucial service is the passport broker, which is a docker container as well. It is named `ga4gh-starter-kit-passport-ui_passport-broker_1`.
-We can interact with the service by sending it various different API requests. Have an API platform (such as [Postman](https://www.postman.com/)) ready to use.
+We can interact with the service by sending it various different API requests.
 
 Confirm the service is working by sending a GET request to the `http://localhost:4500/ga4gh/passport/v1/service-info` endpoint. You should get
 back an object body starting with `id` with value `"org.ga4gh.starterkit.passport.broker"`, and other information.
@@ -64,7 +77,6 @@ Keep your API platform handy, since we will be sending other requests to the Pas
 
 ***
 ## Interacting with the Passport Service
-
 Go to http://127.0.0.1:4455/welcome to enter the welcome page.
 
 Towards the bottom, under Account Management press [Sign Up](http://127.0.0.1:4455/registration) to create an account.
