@@ -2,7 +2,7 @@
 Central UI server connecting to other Passport-related microservices (ory hydra, ory kratos)
 
 ## Preparations Needed to Run the Passport Service
-This service is a docker container, having [Docker Desktop](https://docs.docker.com/desktop/) installed beforehand will be useful. This repo uses a [Makefile](./Makefile), which allows defining special shell commands. If you would like to see what does the make commands do in more detail, please visit the file.
+This service is a docker container, having [Docker Desktop](https://docs.docker.com/desktop/) installed beforehand will be useful. This repo also uses a [Makefile](./Makefile), which allows defining special shell commands. If you would like to see what does the make commands do in more detail, please visit the file.
 
 ***
 ###### Building the Docker Image
@@ -14,7 +14,7 @@ Confirm the `docker image` is present by running;
 ```
 docker images
 ```
-You should see an image for the repository `ga4gh/ga4gh-starter-kit-passport-ui-node` with the tag `latest`
+You should see an image for the repository `ga4gh/ga4gh-starter-kit-passport-ui-node`
 
 ***
 ###### Running the Docker Compose
@@ -53,19 +53,19 @@ In the rest of this document, you will need to send some API requests to the Pas
 can send requests either via your favorite API platform (such as [Postman](https://www.postman.com/)), or via the [python scripts](./utils) present in this document.
 
 If you are going to be sending the requests via the python scripts, you should confirm you have the correct python modules installed:
+
 *Note: You should replace `python` with `python3`, and `pip` with `pip3` if you are using Python 3 for the commands below.*
 1. Confirm python is installed by running:
+    - If not installed, visit [python.org](https://www.python.org/downloads/) to download and install it.
 ```
 python --version
 ```
-2. If not installed, visit [python.org](https://www.python.org/downloads/) to download and install it.
-3. The `pip` module should come pre-installed, you can check by running the command:
+2. The `pip` module should come pre-installed, you can check by running the command:
+    - If `pip` is not available, visit the [pip documentation website](https://pip.pypa.io/en/stable/installation/) to set it up.
 ```
 pip --version
 ```
-4. If `pip` is not available, visit the [pip documentation website](https://pip.pypa.io/en/stable/installation/) to set it up.
-5. Download the required python modules by running the command:
-    *choose the correct command depending on your python version*
+3. Download the required python modules by running the command:
 ```
 pip install -r requirements.txt
 ```
