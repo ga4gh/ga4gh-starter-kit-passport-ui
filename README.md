@@ -156,7 +156,7 @@ You should get back a JSON object with all available visas in the Passport Broke
 Note the ID of the visas you would like to add, see the previous step to GET all available visas.
 
 ###### Python
-You should have atleast one visa ID present, but you can assert more than one at once.
+You should have atleast one visa ID to enter, but you can assert more than one at once. Run the command:
 ```
 python3 utils/PutVisasToUser.py \
 <USER_ID> \
