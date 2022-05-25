@@ -72,19 +72,19 @@ pip install -r requirements.txt
 
 ***
 ## The Passport Broker
-One crucial service is the passport broker, which is a docker container as well. It is named `ga4gh-starter-kit-passport-ui_passport-broker_1`.
-We can interact with the service by sending it various different API requests.
+One crucial service is the passport broker, which is a docker container as well. It is named `ga4gh-starter-kit-passport-ui_passport-broker_1` in the docker compose. We can interact with the service by sending it various different API requests.
 
 Confirm the service is working:
-
-###### API Platform
-Send a GET request to the `http://localhost:4500/ga4gh/passport/v1/service-info` endpoint.
 
 ###### Python
 Run the command:
 ```
 python utils/GetServiceInfo.py
 ```
+
+###### API Platform
+Send a GET request to the `http://localhost:4500/ga4gh/passport/v1/service-info` endpoint.
+
 You should get back an object body starting with `id` with value `"org.ga4gh.starterkit.passport.broker"`, and other information.
 
 ***
@@ -95,10 +95,7 @@ Towards the bottom, under Account Management press [Sign Up](http://127.0.0.1:44
 
 After signing up, you should see your account information on the welcome page, under User Information.
 
-Upon signing up, a user in the passport broker service is also created. Confirm the new user is created by:
-
-###### API Platform
-Sending a GET request to the `http://localhost:4501/admin/ga4gh/passport/v1/users` endpoint. 
+Once the sign up is complete, a user in the passport broker service will also be created. Confirm the new user is created:
 
 ###### Python
 Run the command:
@@ -107,16 +104,13 @@ python utils/GetAllUsers.py
 ```
 There are some example users, but you should see your account's ID in the list of users that is returned (the same ID seen on under User Information).
 
+###### API Platform
+Send a GET request to the `http://localhost:4501/admin/ga4gh/passport/v1/users` endpoint. 
+
 ***
 ## Check the Visas of a User
 
-Check what visas a user has asserted by: 
-
-###### API Platform
-Sending a GET request to the endpoint:
-```
-http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>
-```
+Check what visas a user has asserted: 
 
 ###### Python
 Run the command:
@@ -124,23 +118,29 @@ Run the command:
 python utils/GetUserVisas.py \
 <USER_ID>
 ```
+
+###### API Platform
+Send a GET request to the endpoint:
+```
+http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>
+```
 *Make sure to change `<USER_ID>` to a valid user ID.*
 
 ***
 ## See All Available Visas
 
-You can see all available visas in the Passport Broker by:
-
-###### API Platform
-Sending a GET request to the endpoint:
-```
-http://localhost:4501/admin/ga4gh/passport/v1/visas
-```
+You can see all available visas in the Passport Broker:
 
 ###### Python
 Run the command:
 ```
 python utils/GetAllVisas.py
+```
+
+###### API Platform
+Send a GET request to the endpoint:
+```
+http://localhost:4501/admin/ga4gh/passport/v1/visas
 ```
 
 ***
