@@ -85,6 +85,7 @@ python utils/GetServiceInfo.py
 ###### API Platform
 Send a GET request to the `http://localhost:4500/ga4gh/passport/v1/service-info` endpoint.
 
+###### Response
 You should get back an object body starting with `id` with value `"org.ga4gh.starterkit.passport.broker"`, and other information.
 
 ***
@@ -107,6 +108,9 @@ There are some example users, but you should see your account's ID in the list o
 ###### API Platform
 Send a GET request to the `http://localhost:4501/admin/ga4gh/passport/v1/users` endpoint. 
 
+###### Response
+You should see an array of user IDs where one of the IDs will match the ID you see on the [welcome](http://127.0.0.1:4455/welcome) page.
+
 ***
 ## Check the Visas of a User
 
@@ -126,6 +130,9 @@ http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>
 ```
 *Make sure to change `<USER_ID>` to a valid user ID.*
 
+###### Response
+You should get back a JSON object with the visas present on the user.
+
 ***
 ## See All Available Visas
 
@@ -142,6 +149,9 @@ Send a GET request to the endpoint:
 ```
 http://localhost:4501/admin/ga4gh/passport/v1/visas
 ```
+
+###### Response
+You should get back a JSON object with all available visas in the Passport Broker service.
 
 ***
 ## Assigning New Visas to a User
@@ -193,6 +203,7 @@ In the body include a JSON object with two keys, first the `"id"` which should b
 ```
 *Make sure to change `<USER_ID>` and `<VISA_ID_#>` to a valid values.
 
+###### API Platform
 Upon a succesful PUT request, you should get back to body object you have sent.
 
 ***
