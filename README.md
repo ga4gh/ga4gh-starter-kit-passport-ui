@@ -60,7 +60,7 @@ can send requests either via your favorite API platform (such as [Postman](https
 If you are going to be sending the requests via the python scripts, you should confirm you have the correct python modules installed:
 1. Confirm python is installed by running:
 
-*choose the correct command depending on your python version*
+    *choose the correct command depending on your python version*
 ```
 python --version
 python3 --version
@@ -68,7 +68,7 @@ python3 --version
 2. If not installed, visit [python.org](https://www.python.org/downloads/) to download and install it.
 3. The `pip` module should come pre-installed, you can check by running the command:
 
-*choose the correct command depending on your python version*
+    *choose the correct command depending on your python version*
 ```
 pip --version
 pip3 --version
