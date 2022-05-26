@@ -48,6 +48,13 @@ You can also confirm by opening the currently active docker compose in the Docke
 grayed out. The services are named `ga4gh-starter-kit-passport-ui_kratos-migrate_1` and `ga4gh-starter-kit-passport-ui_hydra-migrate_1`.
 
 ***
+## Important Note Regarding Shutting Down the Docker Compose
+If you shut down the `passport-network`, or restart it for any reason. You should also run the command below to fully clear the docker images. Otherwise there might be issues upon restarting:
+```
+make docker-down
+```
+
+***
 ## 0. Sending API Requests
 In the rest of this document, you will need to send some API requests to the Passport Broker service, both for testing and using purposes. You
 can send requests either via your favorite API platform (such as [Postman](https://www.postman.com/)), or via the [python scripts](./utils) present in this document.
