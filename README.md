@@ -48,7 +48,7 @@ You can also confirm by opening the currently active docker compose in the Docke
 grayed out. The services are named `ga4gh-starter-kit-passport-ui_kratos-migrate_1` and `ga4gh-starter-kit-passport-ui_hydra-migrate_1`.
 
 ***
-## Sending API Requests
+## 0. Sending API Requests
 In the rest of this document, you will need to send some API requests to the Passport Broker service, both for testing and using purposes. You
 can send requests either via your favorite API platform (such as [Postman](https://www.postman.com/)), or via the [python scripts](./utils) present in this document.
 
@@ -71,7 +71,7 @@ pip install -r requirements.txt
 ```
 
 ***
-## The Passport Broker
+## 1. The Passport Broker
 One crucial service is the passport broker, which is a docker container as well. It is named `ga4gh-starter-kit-passport-ui_passport-broker_1` in the docker compose. We can interact with the service by sending it various different API requests.
 
 Confirm the service is working:
@@ -88,7 +88,7 @@ Send a GET request to the `http://localhost:4500/ga4gh/passport/v1/service-info`
 You should get back an object body starting with `id` with value `"org.ga4gh.starterkit.passport.broker"`, and other information.
 
 ***
-## Interacting with the Passport Service
+## 2. See all Users in the Passport Broker
 Go to http://127.0.0.1:4455/welcome to enter the welcome page.
 
 Towards the bottom, under Account Management press [Sign Up](http://127.0.0.1:4455/registration) to create an account.
@@ -111,7 +111,7 @@ Send a GET request to the `http://localhost:4501/admin/ga4gh/passport/v1/users` 
 You should see an array of user IDs where one of the IDs will match the ID you see on the [welcome](http://127.0.0.1:4455/welcome) page.
 
 ***
-## Check the Visas of a User
+## 3. Check the Visas of a User
 
 Check what visas a user has asserted: 
 
@@ -132,7 +132,7 @@ http://localhost:4501/admin/ga4gh/passport/v1/users/<USER_ID>
 You should get back a JSON object with the visas present on the user.
 
 ***
-## See All Available Visas
+## 4. See All Available Visas
 
 You can see all available visas in the Passport Broker:
 
@@ -151,7 +151,7 @@ http://localhost:4501/admin/ga4gh/passport/v1/visas
 You should get back a JSON object with all available visas in the Passport Broker service.
 
 ***
-## Assigning New Visas to a User
+## 5. Assigning New Visas to a User
 
 Note the ID of the visas you would like to add, see the previous step to GET all available visas.
 
