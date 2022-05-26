@@ -49,7 +49,7 @@ grayed out. The services are named `ga4gh-starter-kit-passport-ui_kratos-migrate
 
 ***
 ## Important Note Regarding Shutting Down the Docker Compose
-If you shut down the `passport-network`, or restart it for any reason. You should also run the command below to fully clear the docker images. Otherwise there might be issues upon restarting:
+If you shut down the `passport-network`, or restart it for any reason. You should also run the command below to fully clear the docker images, otherwise there might be issues upon restarting.
 ```
 make docker-down
 ```
