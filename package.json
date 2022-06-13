@@ -1,6 +1,6 @@
 {
   "name": "ga4gh-starter-kit-passport-ui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "UI for the Starter Kit reference implementation of the GA4GH Passport specification",
   "main": "src/index.ts",
   "scripts": {
