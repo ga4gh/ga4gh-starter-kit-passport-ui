@@ -3,7 +3,7 @@ VERSION := $(shell cat package.json | grep version | rev | cut -f 1 -d " " | rev
 Nothing:
 	@echo "No target provided. Stop"
 
-.PHONY: docker-build
+.PHONY: docker-build-test
 docker-build-test:
 	docker build -t ga4gh/ga4gh-starter-kit-passport-ui-node:test .
 

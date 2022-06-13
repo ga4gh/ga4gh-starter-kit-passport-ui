@@ -87,7 +87,7 @@ services:
       - intranet
 
   passport-ui-node:
-    image: ga4gh/ga4gh-starter-kit-passport-ui-node:test
+    image: ga4gh/ga4gh-starter-kit-passport-ui-node:0.0.1
     environment:
       - KRATOS_PUBLIC_URL=http://kratos:4433/
       - KRATOS_ADMIN_URL=http://kratos:4434/
@@ -143,14 +143,6 @@ services:
     networks:
       - intranet
     hostname: passport-broker.ga4gh.org
-  
-  mailslurper:
-    image: oryd/mailslurper:latest-smtps
-    ports:
-      - '4436:4436'
-      - '4437:4437'
-    networks:
-      - intranet
 
 networks:
   intranet:
