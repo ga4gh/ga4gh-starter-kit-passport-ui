@@ -70,7 +70,6 @@ import {
     // console.log(myResponse)
 
     const token = await response.text()
-    // console.log(token)
  
     res.render('passport_token', {
       token : token
