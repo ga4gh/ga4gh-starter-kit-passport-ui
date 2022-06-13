@@ -215,3 +215,8 @@ Upon a succesful PUT request, you should get back to body object you have sent.
 Back in the [welcome page](http://127.0.0.1:4455/welcome) press [Get Passport Token](http://127.0.0.1:4455/passport). On this page you should see your assigned visas, if no visas are assigned please look at the previous step. Select some visas, and then press Get Passport Token.
 
 You can confirm the validity of your JWT token by visiting https://jwt.io/ and pasting the JWT token to examine its contents.
+
+## Changelog
+### v0.0.2
+* Update readme with HTTP requests and add corresponding Python scripts.
+* Remove any trailing and leading spaces in the passport token.
