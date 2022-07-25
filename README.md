@@ -6,7 +6,7 @@ This service is a docker container, having [Docker Desktop](https://docs.docker.
 
 ***
 ###### Install Node and NPM
-Visit [Node.js's official website](https://nodejs.org/en/download/) to download them. 
+Visit [Node.js's official website](https://nodejs.org/en/download/) to download the framework. 
 Confirm the services are running by opening a terminal and running the commands to view the versions:
 ```
 node -v
