@@ -5,6 +5,19 @@ Central UI server connecting to other Passport-related microservices (ory hydra,
 This service is a docker container, having [Docker Desktop](https://docs.docker.com/desktop/) installed beforehand will be useful. This repo also uses a [Makefile](./Makefile), which allows defining special shell commands. If you would like to see what does the make commands do in more detail, please visit the file.
 
 ***
+###### Install Node and NPM
+Visit [Node.js's official website](https://nodejs.org/en/download/) to download them. 
+Confirm the services are running by opening a terminal and running the commands to view the versions:
+```
+node -v
+npm -v
+```
+###### Install Node Dependencies for this Service
+After confirming Node is installed, run this command to install all the dependencies:
+```
+npm install
+```
+
 ###### Building the Docker Image
 First build the `docker image` with the contents of this repo:
 ```
