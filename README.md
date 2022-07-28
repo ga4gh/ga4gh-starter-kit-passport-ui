@@ -12,6 +12,11 @@ Confirm the services are running by opening a terminal and running the commands 
 node -v
 npm -v
 ```
+###### Node and NPM Versions in this Service
+```
+node v18.2.0
+npm 8.9.0
+```
 ###### Install Node Dependencies for this Service
 After confirming Node is installed, run this command to install all the dependencies:
 ```
