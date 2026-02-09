@@ -1,0 +1,107 @@
+/* ============================================================
+   Ory Hydra + Ory Kratos Postgres Bootstrap Script
+   GA4GH Passport / Ory Stack
+   ============================================================ */
+
+/* =========================
+   1. Create database users
+   ========================= */
+
+CREATE USER hydra
+WITH PASSWORD 'secret';
+
+CREATE USER kratos
+WITH PASSWORD 'secret';
+
+
+/* =========================
+   2. Create databases
+   ========================= */
+
+CREATE DATABASE hydra
+  WITH OWNER = hydra
+       ENCODING = 'UTF8'
+       TEMPLATE = template0;
+
+CREATE DATABASE kratos
+  WITH OWNER = kratos
+       ENCODING = 'UTF8'
+       TEMPLATE = template0;
+
+
+/* =========================
+   3. Fix schema ownership
+   ========================= */
+
+-- ---------- Hydra ----------
+\c hydra
+
+ALTER SCHEMA public OWNER TO hydra;
+GRANT ALL ON SCHEMA public TO hydra;
+
+-- ---------- Kratos ----------
+\c kratos
+
+ALTER SCHEMA public OWNER TO kratos;
+GRANT ALL ON SCHEMA public TO kratos;
+
+
+/* =========================
+   4. Default privileges
+   ========================= */
+
+-- ---------- Hydra ----------
+\c hydra
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT ALL ON TABLES TO hydra;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT ALL ON SEQUENCES TO hydra;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT ALL ON FUNCTIONS TO hydra;
+
+
+-- ---------- Kratos ----------
+\c kratos
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT ALL ON TABLES TO kratos;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT ALL ON SEQUENCES TO kratos;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+GRANT ALL ON FUNCTIONS TO kratos;
+
+
+/* =========================
+   5. Security hardening
+   ========================= */
+
+-- Remove default public access
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+
+
+/* =========================
+   6. Verification queries
+   ========================= */
+
+-- ---------- Hydra ----------
+\c hydra
+SELECT current_database(), current_user;
+SELECT schema_name, schema_owner
+FROM information_schema.schemata
+WHERE schema_name = 'public';
+
+-- ---------- Kratos ----------
+\c kratos
+SELECT current_database(), current_user;
+SELECT schema_name, schema_owner
+FROM information_schema.schemata
+WHERE schema_name = 'public';
+
+/* ============================================================
+   END OF FILE
+   ============================================================ */

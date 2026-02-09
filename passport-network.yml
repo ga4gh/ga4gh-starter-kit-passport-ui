@@ -1,42 +1,48 @@
-version: '3.7'
+version: "3.7"
 
+############################
+# NETWORK
+############################
+networks:
+  intranet:
+
+############################
+# VOLUMES
+############################
+#volumes:
+#  postgres-data:
+
+############################
+# SERVICES
+############################
+
+#
+# 1. DATABASE (must start first)
+#
+#postgresd:
+#  image: postgres:13
+#  ports:
+#    - "5432:5432"
+#  environment:
+#    POSTGRES_USER: postgres
+#    POSTGRES_PASSWORD: secret
+#  volumes:
+#    - postgres-data:/var/lib/postgresql/data
+#  networks:
+#    - intranet
+
+
+#
+# 2. HYDRA DATABASE MIGRATION
+#
 services:
-
-  ## Hydra ##
-
-  hydra:
-    image: oryd/hydra:v1.11.7
-    ports:
-      - "4444:4444" # Public port
-      - "4445:4445" # Admin port
-      - "5555:5555" # Port for hydra token user
-    command: serve -c /etc/config/hydra/hydra.yml all --dangerous-force-http
-    volumes:
-      - type: volume
-        source: hydra-sqlite
-        target: /var/lib/sqlite
-        read_only: false
-      - type: bind
-        source: ./contrib/hydra
-        target: /etc/config/hydra
-    environment:
-      - DSN=postgres://hydra:secret@postgresd:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
-    restart: unless-stopped
-    depends_on:
-      - hydra-migrate
-    networks:
-      - intranet
-
   hydra-migrate:
     image: oryd/hydra:v1.11.7
     environment:
-      - DSN=postgres://hydra:secret@postgresd:5432/hydra?sslmode=disable&max_conns=20&max_idle_conns=4
+      DSN: postgres://hydra:secret@host.docker.internal:5432/hydra?sslmode=disable
+      SECRETS_SYSTEM: ${SECRETS_SYSTEM}
     command: migrate -c /etc/config/hydra/hydra.yml sql -e --yes
     volumes:
-      - type: volume
-        source: hydra-sqlite
-        target: /var/lib/sqlite
-        read_only: false
       - type: bind
         source: ./contrib/hydra
         target: /etc/config/hydra
@@ -44,109 +50,117 @@ services:
     networks:
       - intranet
 
-  postgresd:
-    image: postgres:9.6
-    ports:
-      - "5432:5432"
+
+  #
+  # 3. KRATOS DATABASE MIGRATION
+  #
+  kratos-migrate:
+    image: oryd/kratos:v0.9.0-alpha.2
     environment:
-      - POSTGRES_USER=hydra
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=hydra
+      DSN: postgres://kratos:secret@host.docker.internal:5432/kratos?sslmode=disable
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    volumes:
+      - type: bind
+        source: ./contrib/kratos
+        target: /etc/config/kratos
+    restart: on-failure
     networks:
       - intranet
 
+
+  #
+  # 4. HYDRA SERVER
+  #
+  hydra:
+    image: oryd/hydra:v1.11.7
+    depends_on:
+      - hydra-migrate
+    ports:
+      - "4444:4444" # public
+      - "4445:4445" # admin
+      - "5555:5555" # Port for token user
+    environment:
+      DSN: postgres://hydra:secret@host.docker.internal:5432/hydra?sslmode=disable
+      SECRETS_SYSTEM: ${SECRETS_SYSTEM}
+    command: serve -c /etc/config/hydra/hydra.yml all --dangerous-force-http
+    volumes:
+      - type: bind
+        source: ./contrib/hydra
+        target: /etc/config/hydra
+    restart: unless-stopped
+    networks:
+      - intranet
+
+
+  #
+  # 5. KRATOS SERVER
+  #
+  kratos:
+    image: oryd/kratos:v0.9.0-alpha.2
+    depends_on:
+      - kratos-migrate
+    ports:
+      - "4433:4433" # public
+      - "4434:4434" # admin
+    environment:
+      DSN: postgres://kratos:secret@host.docker.internal:5432/kratos?sslmode=disable
+      LOG_LEVEL: trace
+    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
+    volumes:
+      - type: bind
+        source: ./contrib/kratos
+        target: /etc/config/kratos
+    restart: unless-stopped
+    networks:
+      - intranet
+
+
+  #
+  # 6. LOGIN / CONSENT UI (Hydra)
+  #
   passport-ui-hydra:
     image: oryd/hydra-login-consent-node:v1.11.8
+    depends_on:
+      - hydra
+      - kratos
     environment:
-      - HYDRA_ADMIN_URL=http://hydra:4445/
-      - KRATOS_PUBLIC_URL=http://kratos:4433/
-      - KRATOS_ADMIN_URL=http://kratos:4434/
+      HYDRA_ADMIN_URL: http://hydra:4445/
+      KRATOS_PUBLIC_URL: http://kratos:4433/
+      KRATOS_ADMIN_URL: http://kratos:4434/
     ports:
       - "3000:3000"
     restart: unless-stopped
     networks:
       - intranet
-  
-  ## Kratos ##
 
-  kratos-migrate:
-    image: oryd/kratos:v0.9.0-alpha.2
-    environment:
-      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc
-    volumes:
-      - type: volume
-        source: kratos-sqlite
-        target: /var/lib/sqlite
-        read_only: false
-      - type: bind
-        source: ./contrib/kratos
-        target: /etc/config/kratos
-    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
-    restart: on-failure
-    networks:
-      - intranet
 
+  #
+  # 7. KRATOS SELF-SERVICE UI
+  #
   passport-ui-node:
     image: ga4gh/ga4gh-starter-kit-passport-ui-node:0.0.2
+    depends_on:
+      - kratos
     environment:
-      - KRATOS_PUBLIC_URL=http://kratos:4433/
-      - KRATOS_ADMIN_URL=http://kratos:4434/
-      - PORT=4455
-      - SECURITY_MODE=
-      - KRATOS_BROWSER_URL=http://127.0.0.1:4433/
-      - PASSPORT_BROKER_PUBLIC_URL=http://passport-broker.ga4gh.org:4500/ga4gh/passport/v1/ 
-      - PASSPORT_BROKER_ADMIN_URL=http://passport-broker.ga4gh.org:4501/admin/ga4gh/passport/v1/ 
+      KRATOS_PUBLIC_URL: http://kratos:4433/
+      KRATOS_ADMIN_URL: http://kratos:4434/
+      KRATOS_BROWSER_URL: http://127.0.0.1:4433/
+      PASSPORT_BROKER_PUBLIC_URL: http://host.docker.internal:4500/ga4gh/passport/v1/
+      PASSPORT_BROKER_ADMIN_URL: http://host.docker.internal:4501/admin/ga4gh/passport/v1/
+      PORT: 4455
+      SECURITY_MODE:
     ports:
       - "4455:4455"
     restart: unless-stopped
     networks:
       - intranet
 
-  kratos:
-    depends_on:
-      - kratos-migrate
-    image: oryd/kratos:v0.9.0-alpha.2
-    ports:
-      - '4433:4433' # public
-      - '4434:4434' # admin
-    restart: unless-stopped
-    environment:
-      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
-      - LOG_LEVEL=trace
-    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
-    volumes:
-      - type: volume
-        source: kratos-sqlite
-        target: /var/lib/sqlite
-        read_only: false
-      - type: bind
-        source: ./contrib/kratos
-        target: /etc/config/kratos
-    networks:
-      - intranet
-  
+
+  #
+  # 8. MAIL SERVER (Kratos emails)
+  #
   mailslurper:
     image: oryd/mailslurper:latest-smtps
     ports:
       - "4436:4436"
       - "4437:4437"
-    networks:
-      - intranet
-  
-  ## Passports ##
-
-  passport-broker:
-    image: ga4gh/ga4gh-starter-kit-passport-broker:0.0.2
-    ports:
-      - '4500:4500' # public
-      - '4501:4501' # admin
-    networks:
-      - intranet
-    hostname: passport-broker.ga4gh.org
-
-networks:
-  intranet:
-
-volumes:
-  hydra-sqlite:
-  kratos-sqlite:
