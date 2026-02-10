@@ -36,13 +36,20 @@ You should see an image for the repository `ga4gh/ga4gh-starter-kit-passport-ui-
 
 ***
 ###### Running the Docker Compose
-The GA4GH Passports: [Starterkit]("https://starterkit.ga4gh.org/") Implementation is made up of multiple services, this UI-node being one of them. In order to start running multiple services at once a [docker compose](./passport-develop.yml) file used.
+The GA4GH Passports: [Starterkit]("https://starterkit.ga4gh.org/") Implementation is made up of multiple services, this UI-node being one of them. In order to start running multiple services at once a [docker compose](./passport-develop.yml) file used. 
 
 Spin up the docker compose file by running:
 ```
 make passport-network
 ```
-Note: If you would like to modify the ui-node locally, you can also run two commands in two separate terminal tabs...
+
+This service will spin up `Passport Broker UI Node`, `Passport Broker Backend`, `Ory Kratos`, `Ory Hydra` and `Mail server`. However this service is creating a docker network as a single self contained image. If you want more control over the network there is a service which can build this network on Local host machine. This service allows to manage the components individually it is creating a network of `Passport UI Node`, `Ory Kratos`, `Ory Hydra` and `Mail server`. Passport Broker and DB instances will run locally giving more control over the data and process flow between Passport Broker UI and Passport Broker backend. To setup the network locally follow the steps:
+1. Make sure Passport Broker Starter Kit is running locally with a persistence layer(Postgres or MySQL), steps on how to execute the backend is given in [Passport Broker Starter Kit](https://github.com/ga4gh/ga4gh-starter-kit-passport-broker/).
+2. Switch to **dc-mysql-changes** branch.
+3. Configure Ory Kratos and Ory Hydra local database instances. Execute the [script](./local_setup.db) on your local machine to setup the instances. This script will create the required database instances, create users, assign permissions and verifies the access rights.
+4. Execute `make passport-network` from the root of the project.
+
+Note: If you would like to modify the ui-node locally, you can also run two commands in two separate terminal tabs from **develop** branch...
 For the UI-node:
 ```
 make passport-develop-1
